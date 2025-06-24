@@ -6,68 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HuberA-E</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>view/bootstrap/css/bootstrap.min.css">
+    <script>
+        const base_url='<?php echo BASE_URL;?>';
+    </script>
 </head>
 
 <body>
-    <style>
-        .container-fluid {
-            background-color: red;
-        }
 
-        .nav-item {
-            color: green;
-        }
-
-        .navbar-brand {
-            color: blue
-        }
-
-        .nav-item {
-            background-color: yellowgreen;
-        }
-
-        .nav-link {
-            color: blueviolet;
-        }
-
-        .home {
-            color: blueviolet;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
-
-        body {
-            background-color: palegreen;
-        }
-    </style>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Logo</a>
+            <a class="navbar-brand text-danger" href="#">Lo<span class="letra text-warning">go</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link home" aria-current="page" href="#">Home</a>
+                        <a class="nav-link home text-primary" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Users</a>
+                        <a class="nav-link text-primary text-success" href="#">Use<span class="text-primary">rs</span></a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Products</a>
+                        <a class="nav-link text-primary" href="#">Prod<span>ucts</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Categories</a>
+                        <a class="nav-link text-primary" href="#">Categ<span>ories</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Clients</a>
+                        <a class="nav-link text-primary" href="#">Clie<span>nts</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Shops</a>
+                        <a class="nav-link text-primary" href="#">Sho<span>ps</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sales</a>
+                        <a class="nav-link text-primary" href="#">Sal<span>es</span></a>
                     </li>
 
                 </ul>
@@ -171,8 +145,10 @@
         </div>
     </div>
 </body>
-<script src="<?php echo BASE_URL;?>view/function/user.js"></script>
-<script src="<?php echo BASE_URL;?>view/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo BASE_URL; ?>view/function/user.js"></script>
+<script src="<?php echo BASE_URL; ?>view/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
 </html>
