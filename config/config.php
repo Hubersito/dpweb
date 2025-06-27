@@ -1,7 +1,7 @@
 <?php
 
 const BD_HOST = 'localhost';
-const BD_NAME = 'inventario';
+const BD_NAME = 'ventas';
 const BD_USER = 'root';
 const BD_PASSWORD = '';
 const BD_CHARSET = 'utf8';
