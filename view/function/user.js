@@ -1,15 +1,15 @@
 function validar_form() {
-    let nro_documento = document.getElementById("nro_doc").value;
-    let Razón_Social = document.getElementById("nombre").value;
-    let Teléfono = document.getElementById("telefono").value;
-    let Correo = document.getElementById("correo").value;
-    let Departamento = document.getElementById("departamento").value;
-    let Provincia = document.getElementById("provincia").value;
-    let Distrito = document.getElementById("distrito").value;
-    let Codigo_Postal = document.getElementById("cod_postal").value;
-    let Dirección = document.getElementById("direccion").value;
-    let Rol = document.getElementById("rol").value;
-    if (nro_documento == "" || Razón_Social == "" || Teléfono == "" || Correo == "" || Departamento == "" || Provincia == "" || Distrito == "" || Codigo_Postal == "" || Dirección == "" || Rol == "") {
+    let nro_identidad = document.getElementById("nro_identidad").value;
+    let razon_social = document.getElementById("razon_social").value;
+    let telefono = document.getElementById("telefono").value;
+    let correo = document.getElementById("correo").value;
+    let departamento = document.getElementById("departamento").value;
+    let provincia = document.getElementById("provincia").value;
+    let distrito = document.getElementById("distrito").value;
+    let cod_postal = document.getElementById("cod_postal").value;
+    let direccion = document.getElementById("direccion").value;
+    let rol = document.getElementById("rol").value;
+    if (nro_identidad == "" || razon_social == "" || telefono == "" || correo == "" || departamento == "" || provincia == "" || distrito == "" || cod_postal == "" || direccion == "" || rol == "") {
         alert("Error:Existen Campos Vacíos");
         return;
     }
@@ -48,6 +48,15 @@ async function registrarUsuario(params){
             body: datos
     
         });
+        let json = await respuesta.json();
+        // Esta condicion es la validadcion de  que (json.status sea = true)
+        if (json.status) {
+            alert(json.msg);
+            document.getElementById('frm_user').reset();
+        }else{
+            alert(json.msg);
+        }
+
     }catch(e) {
         console.log("Error al registrar Usuario:" + e);
     }

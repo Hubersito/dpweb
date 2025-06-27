@@ -71,15 +71,15 @@
             <form id="frm_user" action="" method="">
                 <div class="card-body">
                     <div class="mb-3 row">
-                        <label for="nro_doc" class="col-sm-4 col-form-label">Nro de Documento:</label>
+                        <label for="nro_identidad" class="col-sm-4 col-form-label">Nro de Documento:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="nro_doc" name="nro_doc" required>
+                            <input type="number" class="form-control" id="nro_identidad" name="nro_identidad" required>
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="nombre" class="col-sm-4 col-form-label">Razón Social:</label>
+                        <label for="razon_social" class="col-sm-4 col-form-label">Razón Social:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            <input type="text" class="form-control" id="razon_social" name="razon_social" required>
                         </div>
                     </div>
                     <div class="mb-3 row">
