@@ -13,13 +13,13 @@ function validar_form() {
         alert("Error:Existen Campos Vacíos");
         return;
     }
-    /*Swal.fire({
+    Swal.fire({
         
-        title: "👍Registro exitoso!",
+        title: "Registro exitoso!",
         icon: "Correcto",
         draggable: true
         
-    });*/
+    });
     
     registrarUsuario();
     
