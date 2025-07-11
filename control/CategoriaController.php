@@ -8,9 +8,9 @@ if ($tipo == "registrar") {
     //print_r($_POST);
     $nombre = $_POST['nombre'];
     $detalle = $_POST['detalle'];
-    
+
     if (
-        $nombre == "" || $detalle == "" 
+        $nombre == "" || $detalle == ""
     ) {
         $arrResponse = array('status' => false, 'msg' => 'Error, campos vacios');
     } else {

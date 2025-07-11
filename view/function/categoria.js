@@ -10,13 +10,13 @@ function validar_form() {
     registrarCategoria();
 
 
-    /*Swal.fire({
+    Swal.fire({
         
         title: "Registro exitoso!",
         icon: "Correcto",
         draggable: true
         
-    });*/
+    });
     
 }
 
