@@ -25,7 +25,7 @@
                         <a class="nav-link home text-primary" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary text-success" href="#">Use<span class=" letra text-danger">rs</span></a>
+                        <a class="nav-link text-primary text-success" href="<?= BASE_URL ?>users">Use<span class=" letra text-danger">rs</span></a>
                     </li>
 
                     <li class="nav-item">

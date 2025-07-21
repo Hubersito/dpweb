@@ -14,15 +14,15 @@ function validar_form() {
         return;
     }
     Swal.fire({
-        
+
         title: "Registro exitoso!",
         icon: "Correcto",
         draggable: true
-        
+
     });
-    
+
     registrarUsuario();
-    
+
 
 }
 
@@ -36,33 +36,33 @@ if (document.querySelector('#frm_user')) {
     }
 }
 
-async function registrarUsuario(params){
-   try{
+async function registrarUsuario(params) {
+    try {
         //capturar campos de formulario (HTML)
         const datos = new FormData(frm_user);
         //enviar datos a controlador
-        let respuesta = await fetch(base_url+'control/UsuarioController.php ? tipo=registrar',{
-            method:'POST',
-            mode:'cors',
-            cache:'no-cache',
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php ? tipo=registrar', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
             body: datos
-    
+
         });
         let json = await respuesta.json();
         // Esta condicion es la validadcion de  que (json.status sea = true)
         if (json.status) {
             alert(json.msg);
             document.getElementById('frm_user').reset();
-        }else{
+        } else {
             alert(json.msg);
         }
 
-    }catch(e) {
+    } catch (e) {
         console.log("Error al registrar Usuario:" + e);
     }
 }
 
-async function iniciar_sesion() {   
+async function iniciar_sesion() {
     let usuario = document.getElementById("usuario").value;
     let password = document.getElementById("password").value;
     if (usuario == "" || password == "") {
@@ -70,19 +70,19 @@ async function iniciar_sesion() {
         return;
     }
     try {
-        const datos =  new FormData(frm_login);
-        let respuesta = await fetch(base_url+'control/UsuarioController.php?tipo=iniciar_sesion',{
+        const datos = new FormData(frm_login);
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=iniciar_sesion', {
             method: 'POST',
-            mode:'cors',
-            cache:'no-cache',
+            mode: 'cors',
+            cache: 'no-cache',
             body: datos
         });
-         /**  ------------------- */
-         let json = await respuesta.json();
+        /**  ------------------- */
+        let json = await respuesta.json();
         // Esta condicion es la validadcion de  que (json.status sea = true)
         if (json.status) {
-           location.replace(base_url + 'new-user');
-        }else{
+            location.replace(base_url + 'new-user');
+        } else {
             alert(json.msg);
         }
     } catch (error) {
@@ -90,6 +90,35 @@ async function iniciar_sesion() {
     }
 
 }
+
+
+
+
+async function view_users() {
+    try {
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php ? tipo=ver_usuarios', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+        });
+        let json = await respuesta.json();
+        // Esta condicion es la validadcion de  que (json.status sea = true)
+        if (json.status) {
+            alert(json.msg);
+            document.getElementById('frm_user').reset();
+        } else {
+            alert(json.msg);
+        }
+
+    } catch (e) {
+        console.log("Error al ver Usuario:" + e);
+    }
+ }
+
+if (document.getElementById('content_users')) {
+    view_users();
+}
+
 
 
 
