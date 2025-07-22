@@ -102,24 +102,35 @@ async function view_users() {
             cache: 'no-cache',
         });
         let json = await respuesta.json();
-        // Esta condicion es la validadcion de  que (json.status sea = true)
-        if (json.status) {
-            alert(json.msg);
-            document.getElementById('frm_user').reset();
-        } else {
-            alert(json.msg);
-        }
+
+        let content_users = document.getElementById('content_users');
+
+        content_users.innerHTML = '';
+
+        json.forEach((user, index) => {
+            let fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${user.nro_identidad}</td>
+                <td>${user.razon_social}</td>
+                <td>${user.correo}</td>
+                <td>${user.rol}</td>
+                <td>${user.estado}</td>
+                <td>
+                    <a href="`+ base_url+`edit_user/`+user.id+`">Editar</a>
+                </td>
+            `;
+            content_users.appendChild(fila);
+        });
 
     } catch (e) {
         console.log("Error al ver Usuario:" + e);
     }
- }
+}
 
 if (document.getElementById('content_users')) {
     view_users();
 }
-
-
 
 
 

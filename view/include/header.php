@@ -29,19 +29,19 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="#">Prod<span>ucts</span></a>
+                        <a class="nav-link text-primary" href="<?= BASE_URL ?>products">Prod<span>ucts</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="#">Categ<span>ories</span></a>
+                        <a class="nav-link text-primary" href="<?= BASE_URL ?>categories">Categ<span>ories</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="#">Clie<span>nts</span></a>
+                        <a class="nav-link text-primary" href="<?= BASE_URL ?>clients">Clie<span>nts</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="#">Sho<span>ps</span></a>
+                        <a class="nav-link text-primary" href="<?= BASE_URL ?>shops">Sho<span>ps</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="#">Sal<span>es</span></a>
+                        <a class="nav-link text-primary" href="<?= BASE_URL ?>sales">Sal<span>es</span></a>
                     </li>
 
                 </ul>
