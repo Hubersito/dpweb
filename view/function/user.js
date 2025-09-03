@@ -1,4 +1,4 @@
-function validar_form() {
+function validar_form(tipo) {
     let nro_identidad = document.getElementById("nro_identidad").value;
     let razon_social = document.getElementById("razon_social").value;
     let telefono = document.getElementById("telefono").value;
@@ -21,8 +21,12 @@ function validar_form() {
 
     });
 
-    registrarUsuario();
-
+    if (tipo == "nuevo") {
+        registrarUsuario();
+    }
+    if (tipo == "actualizar") {
+        actualizarUsuario();
+    }
 
 }
 
@@ -32,7 +36,7 @@ if (document.querySelector('#frm_user')) {
     let frm_user = document.querySelector('#frm_user');
     frm_user.onsubmit = function (e) {
         e.preventDefault();
-        validar_form();
+        validar_form("nuevo");
     }
 }
 
@@ -117,7 +121,7 @@ async function view_users() {
                 <td>${user.rol}</td>
                 <td>${user.estado}</td>
                 <td>
-                    <a href="`+ base_url+`edit_user/`+user.id+`">Editar</a>
+                    <a href="`+ base_url + `edit-user/` + user.id + `">Editar</a>
                 </td>
             `;
             content_users.appendChild(fila);
@@ -130,6 +134,59 @@ async function view_users() {
 
 if (document.getElementById('content_users')) {
     view_users();
+}
+
+
+
+/*editar usuarios*/
+
+async function edit_user() {
+    try {
+        let id_persona = document.getElementById('id_persona').value;
+        const datos = new FormData();
+        datos.append('id_persona', id_persona);
+
+        let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=ver', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+
+        json = await respuesta.json();
+        if (!json.status) {
+            alert(json.msg);
+            return;
+        }
+        document.getElementById('nro_identidad').value = json.data.nro_identidad;
+        document.getElementById('razon_social').value = json.data.razon_social;
+        document.getElementById('telefono').value = json.data.telefono;
+        document.getElementById('correo').value = json.data.correo;
+        document.getElementById('departamento').value = json.data.departamento;
+        document.getElementById('provincia').value = json.data.provincia;
+        document.getElementById('distrito').value = json.data.distrito;
+        document.getElementById('cod_postal').value = json.data.cod_postal;
+        document.getElementById('direccion').value = json.data.direccion;
+        document.getElementById('rol').value = json.data.rol;
+
+
+
+    } catch (error) {
+        console.log('oops ocurrió un error' + error);
+    }
+
+
+    if (document.querySelector('#frm_edit_user')) {
+        // evita que se envie el formulario
+        let frm_user = document.querySelector('#frm_edit_user');
+        frm_user.onsubmit = function (e) {
+            e.preventDefault();
+            validar_form("actualizar");
+        }
+    }
+}
+async function actualizarUsuario() {
+    alert('actualizar');
 }
 
 
