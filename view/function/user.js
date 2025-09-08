@@ -13,13 +13,6 @@ function validar_form(tipo) {
         alert("Error:Existen Campos Vacíos");
         return;
     }
-    Swal.fire({
-
-        title: "Registro exitoso!",
-        icon: "Correcto",
-        draggable: true
-
-    });
 
     if (tipo == "nuevo") {
         registrarUsuario();
@@ -114,18 +107,41 @@ async function view_users() {
         json.forEach((user, index) => {
             let fila = document.createElement('tr');
             fila.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${user.nro_identidad}</td>
-                <td>${user.razon_social}</td>
-                <td>${user.correo}</td>
-                <td>${user.rol}</td>
-                <td>${user.estado}</td>
-                <td>
-                    <a href="`+ base_url + `edit-user/` + user.id + `">Editar</a>
-                </td>
-            `;
+        <td>${index + 1}</td>
+        <td>${user.nro_identidad}</td>
+        <td>${user.razon_social}</td>
+        <td>${user.correo}</td>
+        <td>${user.rol}</td>
+        <td>${user.estado}</td>
+        <td>
+            <a href="${base_url}edit-user/${user.id}" class="btn btn-success">Editar</a>
+            <button data-id="${user.id}" class="btn btn-eliminar btn-danger">Eliminar</button>
+        </td>
+    `;
             content_users.appendChild(fila);
         });
+
+        // Agrega el evento click a los botones de eliminar
+        document.querySelectorAll('.btn-eliminar').forEach(btn => {
+            btn.addEventListener('click', async function () {
+                if (confirm('¿Está seguro de eliminar este usuario?')) {
+                    const datos = new FormData();
+                    datos.append('id', this.getAttribute('data-id'));
+                    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        body: datos
+                    });
+                    let json = await respuesta.json();
+                    alert(json.msg);
+                    if (json.status) {
+                        view_users(); // Recarga la lista
+                    }
+                }
+            });
+        });
+
 
     } catch (e) {
         console.log("Error al ver Usuario:" + e);
@@ -185,8 +201,58 @@ async function edit_user() {
         }
     }
 }
+
+/* =========================================================
+   ===============   Actualizar Usuario  ====================
+   ========================================================= */
+
 async function actualizarUsuario() {
-    alert('actualizar');
+    const datos = new FormData(frm_edit_user);
+    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=actualizar', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        body: datos
+    });
+    json = await respuesta.json();
+    if (!(json.status)) {
+        alert("Uups, ocurrio un error al actualizar, intentelo nuevamente");
+        console.log(json.msg);
+        return;
+    } else {
+        alert(json.msg);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   ===============   ELIMINAR USUARIO   ====================
+   ========================================================= */
+async function eliminarUsuario() {
+    const datos = new FormData(frm_delete_user);
+    let respuesta = await fetch(base_url + 'control/UsuarioController.php?tipo=eliminar', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        body: datos
+    });
+    json = await respuesta.json();
+    if (!(json.status)) {
+        alert("Uups, ocurrio un error al eliminar, intentelo nuevamente");
+        console.log(json.msg);
+        return;
+    } else {
+        alert(json.msg);
+    }
 }
 
 
