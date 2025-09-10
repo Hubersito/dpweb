@@ -106,7 +106,7 @@
       <button class="btn" type="button" onclick="iniciar_sesion();">Explorar Tienda</button>
     </form>
     <div class="extra">
-      <p>¿Olvidaste tu contraseña? <a href="#">Recupérala</a></p>
+      <p>¿Olvidaste tu contraseña corcho? <a href="#">Recupérala</a></p>
       <p>¿Nuevo personal? <a href="#">Regístrate</a></p>
     </div>
     <divt class="footer">
