@@ -2,6 +2,7 @@
 require_once("../model/UsuarioModel.php");
 $objPersona = new UsuarioModel();
 $tipo = $_GET['tipo'];
+
 if ($tipo == 'registrar') {
 
     //print_r($_POST);
