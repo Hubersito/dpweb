@@ -6,7 +6,7 @@
                 <div class="card-header bg-primary text-white text-center">
                     <h5 class="mb-0"><i class="bi bi-box-seam me-2"></i>Registrar Producto</h5>
                 </div>
-                <form id="frm_producto" action="" method="">
+                <form id="frm_producto" action="" method="" enctype="multipart/form-data">
                     <div class="card-body bg-light">
                         <div class="mb-3 row align-items-center">
                             <label for="codigo" class="col-sm-4 col-form-label fw-semibold text-primary">
@@ -48,7 +48,7 @@
                                 <input type="number" class="form-control border-primary" id="stock" name="stock" required>
                             </div>
                         </div>
-                        <div class="mb-3 row align-items-center">
+                         <div class="mb-3 row align-items-center">
                             <label for="categoria" class="col-sm-4 col-form-label fw-semibold text-primary">
                                 <i class="bi bi-tags"></i> Categoría:
                             </label>
@@ -68,6 +68,29 @@
                                 <input type="date" class="form-control border-primary" id="fecha_vencimiento" name="fecha_vencimiento" required>
                             </div>
                         </div>
+
+                        <!-- Campo para cargar imagen (agregado) -->
+                        <div class="mb-3 row align-items-center">
+                            <label for="imagen" class="col-sm-4 col-form-label fw-semibold text-primary">
+                                <i class="bi bi-image"></i> Imagen:
+                            </label>
+                            <div class="col-sm-8">
+                                <input type="file" class="form-control border-primary" id="imagen" name="imagen" accept=".jpg, .jpeg, .png" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row align-items-center">
+                            <label for="proveedor" class="col-sm-4 col-form-label fw-semibold text-primary">
+                                <i class="bi bi-truck"></i> Proveedor:
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control border-primary" id="proveedor" name="proveedor" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <!-- Opciones dinámicas -->
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-between mt-4">
                             <button type="submit" class="btn btn-success px-4">
                                 <i class="bi bi-check-circle"></i> Registrar
@@ -88,4 +111,7 @@
     </div>
 </div>
 <!-- FIN DE CUERPO DE PAGINA -->
-<script src="<?php echo BASE_URL; ?>view/function/producto.js"></script>
+<script src="<?php echo BASE_URL; ?>view/function/products.js"></script>
+<script>
+    cargar_categorias();
+</script>

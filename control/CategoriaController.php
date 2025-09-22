@@ -29,10 +29,26 @@ if ($tipo == "registrar") {
     }
     echo json_encode($arrResponse);
 }
-if ($tipo == "ver_categorias") {
-    $categories = $objCategoria->verCategoria();
-    echo json_encode($categories);
+
+//////////////////// arreglar esta wevada
+
+if ($tipo == "ver_cate") {
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    $productos = $objProducto->verProductos();
+    $arrProduct = array();
+    if (count($productos)) {
+        foreach ($productos as $producto) {
+            $categoria = $objCategoria->ver($producto->id_categoria);
+            $producto->categoria = $categoria->nombre;
+            array_push($arrProduct, $producto);
+        }
+        $respuesta = array('status' => true, 'msg' => '', 'data' => $arrProduct);
+    }
+    echo json_encode($respuesta);
 }
+//////////////////////////////////////////
+
+///
 if ($tipo == "ver") {
     //print_r($_POST);
     $respuesta = array('status' => false, 'msg' => 'Error');

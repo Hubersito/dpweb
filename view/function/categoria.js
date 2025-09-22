@@ -6,17 +6,7 @@ function validar_form() {
         alert("Error:Existen Campos Vacíos");
         return;
     }
-
     registrarCategoria();
-
-    Swal.fire({
-
-        title: "Registro exitoso!",
-        icon: "Correcto",
-        draggable: true
-
-    });
-
 }
 
 
@@ -78,8 +68,8 @@ async function mostrarListaCategorias() {
         if (!tbody) return; // Solo ejecuta si existe el tbody en la página
         tbody.innerHTML = '';
         if (json.length > 0) {
-    json.forEach((cat, idx) => {
-        tbody.innerHTML += `
+            json.forEach((cat, idx) => {
+                tbody.innerHTML += `
             <tr>
                 <td>${idx + 1}</td>
                 <td>${cat.nombre}</td>
@@ -91,10 +81,10 @@ async function mostrarListaCategorias() {
                 </td>
             </tr>
         `;
-    });
-} else {
-    tbody.innerHTML = `<tr><td colspan="4" class="text-center">No hay categorías registradas</td></tr>`;
-}
+            });
+        } else {
+            tbody.innerHTML = `<tr><td colspan="4" class="text-center">No hay categorías registradas</td></tr>`;
+        }
     } catch (e) {
         console.log("Error al mostrar categorías: " + e);
     }

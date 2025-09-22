@@ -1,4 +1,3 @@
-
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -20,8 +19,8 @@
                                     <th>Detalle</th>
                                     <th>Precio</th>
                                     <th>Stock</th>
-                                    <th>Id categoria</th>
-                                    <th>fecha Vencimiento</th>
+                                    <th>Categoría</th>
+                                    <th>Fecha Vencimiento</th>
                                 </tr>
                             </thead>
                             <tbody id="content_products">
