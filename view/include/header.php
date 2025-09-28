@@ -15,70 +15,68 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- Navbar Rediseñada -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand text-danger" href="#">
-                <i class="bi bi-box-arrow-in-right"></i> Lo<span class="letra text-warning">gin</span>
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-box-arrow-in-right"></i> Hu<span class="text-warning">ber</span>A-E
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+            <!-- Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Menú -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Opciones de navegación -->
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold">
                     <li class="nav-item">
-                        <a class="nav-link home text-primary" aria-current="page" href="new-user">
-                            <i class="bi bi-house-door"></i> Home
-                        </a>
+                        <a class="nav-link active" href="new-user"><i class="bi bi-house-door"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-success" href="<?= BASE_URL ?>users">
-                            <i class="bi bi-people"></i> Use<span class="letra text-danger">rs</span>
-                        </a>
+                        <a class="nav-link" href="<?= BASE_URL ?>users"><i class="bi bi-people"></i> Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="<?= BASE_URL ?>products">
-                            <i class="bi bi-box-seam"></i> Prod<span>ucts</span>
-                        </a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link text-primary" href="<?= BASE_URL ?>categories">
-                            <i class="bi bi-tags"></i> Categ<span>ories</span>
-                        </a>
+                        <a class="nav-link" href="<?= BASE_URL ?>products"><i class="bi bi-box-seam"></i> Productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="<?= BASE_URL ?>clients">
-                            <i class="bi bi-person-badge"></i> Clie<span>nts</span>
-                        </a>
+                        <a class="nav-link" href="<?= BASE_URL ?>categories"><i class="bi bi-tags"></i> Categorías</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="<?= BASE_URL ?>shops">
-                            <i class="bi bi-shop"></i> Sho<span>ps</span>
-                        </a>
+                        <a class="nav-link" href="<?= BASE_URL ?>clients"><i class="bi bi-person-badge"></i> Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-primary" href="<?= BASE_URL ?>sales">
-                            <i class="bi bi-cash-stack"></i> Sal<span>es</span>
-                        </a>
+                        <a class="nav-link" href="<?= BASE_URL ?>shops"><i class="bi bi-shop"></i> Tiendas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= BASE_URL ?>sales"><i class="bi bi-cash-stack"></i> Ventas</a>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i> Usuario
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle"></i> Ayuda</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </form>
+
+                <!-- Menú Usuario -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> Usuario
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle"></i> Ayuda</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Bootstrap JS -->
+    <script src="<?php echo BASE_URL; ?>view/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
