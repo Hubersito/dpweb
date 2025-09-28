@@ -32,18 +32,23 @@ if ($tipo == "registrar") {
 
 //////////////////// arreglar esta wevada
 
-if ($tipo == "ver_cate") {
-    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
-    $productos = $objProducto->verProductos();
-    $arrProduct = array();
-    if (count($productos)) {
-        foreach ($productos as $producto) {
-            $categoria = $objCategoria->ver($producto->id_categoria);
-            $producto->categoria = $categoria->nombre;
-            array_push($arrProduct, $producto);
-        }
-        $respuesta = array('status' => true, 'msg' => '', 'data' => $arrProduct);
+if ($tipo == "ver_categorias") {
+    // Estructura de respuesta por defecto
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador', 'data' => []);
+
+    // Obtener las categorías del modelo
+    // Usa verCategoria() para mantener compatibilidad con el código existente.
+    // Si tu modelo expone verCategorias(), cámbialo aquí.
+    $categorias = $objCategoria->verCategoria(); // $objCategoria->verCategorias();
+
+    // Si hay datos, actualizar la respuesta
+    if (is_array($categorias) && count($categorias) > 0) {
+        $respuesta['status'] = true;
+        $respuesta['msg'] = '';
+        $respuesta['data'] = $categorias;
     }
+
+    // Devolver respuesta en formato JSON
     echo json_encode($respuesta);
 }
 //////////////////////////////////////////

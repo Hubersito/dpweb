@@ -130,13 +130,41 @@ async function eliminarProducto(id) {
         console.log(e);
     }
 }
-async function cargar_categorias() {
-    let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=ver_categorias', {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache'
-    });
-    let json = await respuesta.json();
-    json.data.forEach(categoria => {
 
+
+async function cargar_categorias() {
+    try {
+        let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=ver_categorias', {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        let json = await respuesta.json();
+
+        const select = document.getElementById('categoria');
+        if (!select) return;
+
+        // Opción por defecto
+        select.innerHTML = '<option value="">Seleccione una categoría</option>';
+
+        // Asumiendo respuesta { data: [...] } (básico)
+        if (!json || !Array.isArray(json.data)) return;
+
+        json.data.forEach(categoria => {
+            const id = categoria.id ?? categoria.id_categoria;
+            const nombre = categoria.nombre ?? categoria.categoria;
+            if (id && nombre) {
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = nombre;
+                select.appendChild(option);
+            }
+        });
+    } catch (e) {
+        console.log('Error al cargar categorías: ' + e);
+    }
+}
+// Llamada básica si existe el select en la página
+if (document.getElementById('categoria')) {
+    cargar_categorias();
 }

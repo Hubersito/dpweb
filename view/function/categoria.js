@@ -56,39 +56,45 @@ async function registrarCategoria() {
 
 
 // Función para mostrar las categorías en la tabla de list-categorie.php
-async function mostrarListaCategorias() {
-    try {
-        let respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=ver_categorias', {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'no-cache'
-        });
-        let json = await respuesta.json();
-        let tbody = document.getElementById('content_list_categorie');
-        if (!tbody) return; // Solo ejecuta si existe el tbody en la página
-        tbody.innerHTML = '';
-        if (json.length > 0) {
-            json.forEach((cat, idx) => {
-                tbody.innerHTML += `
-            <tr>
-                <td>${idx + 1}</td>
-                <td>${cat.nombre}</td>
-                <td>${cat.detalle}</td>
-                <td>
-                    <button class="btn btn-danger btn-sm" onclick="eliminarCategoria(${cat.id})">
-                        <i class="bi bi-trash"></i> Eliminar
-                    </button>
-                </td>
-            </tr>
-        `;
-            });
-        } else {
-            tbody.innerHTML = `<tr><td colspan="4" class="text-center">No hay categorías registradas</td></tr>`;
-        }
-    } catch (e) {
-        console.log("Error al mostrar categorías: " + e);
-    }
-}
+ async function mostrarListaCategorias() {
+      try {
+          const respuesta = await fetch(base_url + 'control/CategoriaController.php?tipo=ver_categorias', {
+              method: 'GET',
+              mode: 'cors',
+              cache: 'no-cache'
+          });
+          const json = await respuesta.json();
+
+          // Normaliza el arreglo de categorías según la estructura devuelta por el backend
+          const categorias = Array.isArray(json)
+              ? json
+              : (Array.isArray(json.data) ? json.data
+                  : (Array.isArray(json.categorias) ? json.categorias : []));
+
+          const tbody = document.getElementById('content_list_categorie');
+          if (!tbody) return;
+
+          if (categorias.length > 0) {
+              const rows = categorias.map((cat, idx) => `
+                  <tr>
+                      <td>${idx + 1}</td>
+                      <td>${cat.nombre ?? ''}</td>
+                      <td>${cat.detalle ?? ''}</td>
+                      <td>
+                          <button class="btn btn-danger btn-sm" onclick="eliminarCategoria(${cat.id})">
+                              <i class="bi bi-trash"></i> Eliminar
+                          </button>
+                      </td>
+                  </tr>
+              `).join('');
+              tbody.innerHTML = rows;
+          } else {
+              tbody.innerHTML = '<tr><td colspan="4" class="text-center">No hay categorías registradas</td></tr>';
+          }
+      } catch (e) {
+          console.log('Error al mostrar categorías: ', e);
+      }
+  }
 
 // Llama a la función solo si existe el tbody en la página actual
 if (document.getElementById('content_list_categorie')) {
