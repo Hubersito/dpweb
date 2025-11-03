@@ -1,1 +1,1 @@
-my one sistem
+Sistema de Ventas
