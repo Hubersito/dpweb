@@ -19,11 +19,12 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: radial-gradient(circle at top, #00111a, #000);
-      background-image: url('https://i.ibb.co/FhYZYxN/circuit-bg.png');
+      background: radial-gradient(circle at top, #8b078bff, #000);
+      background-color:  #2c777cff;
       background-size: cover;
       background-repeat: no-repeat;
       background-blend-mode: overlay;
+      
     }
 
     .container {
@@ -196,7 +197,7 @@
     <div class="info-content">
       <h2>Bienvenido a HuberStore</h2>
       <p>Tu sistema de gestión para la venta de computadoras, accesorios y tecnología avanzada.</p>
-      <img src="https://cdn-icons-png.flaticon.com/512/4254/4254068.png" alt="Logo HuberStore">
+      <img src="https://static.vecteezy.com/system/resources/previews/006/244/213/non_2x/initial-letter-m-b-logo-design-graphic-alphabet-symbol-for-corporate-business-identity-vector.jpg" alt="Logo HuberStore">
     </div>
   </div>
 
