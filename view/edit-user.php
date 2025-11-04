@@ -16,7 +16,7 @@
       <div class="card-body">
 
         <div class="mb-3 row">
-          <label for="nro_identidad" class="col-sm-3 col-form-label text-end">
+          <label for="nro_identidad" class="col-sm-3 col-form-label ">
             <i class="bi bi-credit-card text-primary"></i> N° Documento
           </label>
           <div class="col-sm-9">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="razon_social" class="col-sm-3 col-form-label text-end">
+          <label for="razon_social" class="col-sm-3 col-form-label ">
             <i class="bi bi-person-badge text-success"></i> Nombre/Razón Social
           </label>
           <div class="col-sm-9">
@@ -34,7 +34,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="telefono" class="col-sm-3 col-form-label text-end">
+          <label for="telefono" class="col-sm-3 col-form-label ">
             <i class="bi bi-telephone text-info"></i> Teléfono
           </label>
           <div class="col-sm-9">
@@ -43,7 +43,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="correo" class="col-sm-3 col-form-label text-end">
+          <label for="correo" class="col-sm-3 col-form-label ">
             <i class="bi bi-envelope text-warning"></i> Correo
           </label>
           <div class="col-sm-9">
@@ -52,7 +52,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="departamento" class="col-sm-3 col-form-label text-end">
+          <label for="departamento" class="col-sm-3 col-form-label ">
             <i class="bi bi-geo-alt text-danger"></i> Departamento
           </label>
           <div class="col-sm-9">
@@ -61,7 +61,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="provincia" class="col-sm-3 col-form-label text-end">
+          <label for="provincia" class="col-sm-3 col-form-label ">
             <i class="bi bi-map text-success"></i> Provincia
           </label>
           <div class="col-sm-9">
@@ -70,7 +70,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="distrito" class="col-sm-3 col-form-label text-end">
+          <label for="distrito" class="col-sm-3 col-form-label ">
             <i class="bi bi-geo text-primary"></i> Distrito
           </label>
           <div class="col-sm-9">
@@ -79,7 +79,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="cod_postal" class="col-sm-3 col-form-label text-end">
+          <label for="cod_postal" class="col-sm-3 col-form-label ">
             <i class="bi bi-signpost text-warning"></i> Código Postal
           </label>
           <div class="col-sm-9">
@@ -88,7 +88,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="direccion" class="col-sm-3 col-form-label text-end">
+          <label for="direccion" class="col-sm-3 col-form-label ">
             <i class="bi bi-house-door text-info"></i> Dirección
           </label>
           <div class="col-sm-9">
@@ -97,7 +97,7 @@
         </div>
 
         <div class="mb-3 row">
-          <label for="rol" class="col-sm-3 col-form-label text-end">
+          <label for="rol" class="col-sm-3 col-form-label ">
             <i class="bi bi-person-gear text-danger"></i> Rol
           </label>
           <div class="col-sm-9">
