@@ -135,7 +135,7 @@
                 <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Perfil</a></li>
                 <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Ajustes</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="<?= BASE_URL ?>logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
               </ul>
             </li>
           </ul>
