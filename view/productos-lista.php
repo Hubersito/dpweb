@@ -1,24 +1,32 @@
-<div class="container">
-    <h5 class="mt-3 text-center" style="background: blue; align-items:center;">LISTA DE PRODUCTOS</h5>
-    <table class="table table-striped text-center" style="border: 2px solid blue;">
-        <thead>
+<div class="container mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-primary text-white text-center fs-5 fw-bold">
+      <i class="bi bi-box-seam text-warning me-2"></i> Lista de Productos
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle text-center table-bordered">
+          <thead class="table-primary">
             <tr>
-                <th>Nro</th>
-                <th>Codigo</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Categoria</th>
-                <th>Proveedor</th>
-                <th>Fecha Vencimiento</th>
-                <th>Acciones</th>
+              <th><i class="bi bi-hash"></i> Nro</th>
+              <th><i class="bi bi-upc-scan"></i> Código</th>
+              <th><i class="bi bi-bag"></i> Nombre</th>
+              <th><i class="bi bi-cash-coin"></i> Precio</th>
+              <th><i class="bi bi-box2"></i> Stock</th>
+              <th><i class="bi bi-tags"></i> Categoría</th>
+              <th><i class="bi bi-truck"></i> Proveedor</th>
+              <th><i class="bi bi-calendar-date"></i> Vencimiento</th>
+              <th><i class="bi bi-gear"></i> Acciones</th>
             </tr>
-        </thead>
-
-        <tbody id="content_productos">
-        </tbody>
-
-    </table>
+          </thead>
+          <tbody id="content_productos">
+            <!-- Filas dinámicas generadas con JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="<?php echo BASE_URL; ?>view/function/producto.js"></script>
