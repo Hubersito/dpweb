@@ -52,14 +52,14 @@ async function registrarUsuario() {
         if (json.msg) {
             Swal.fire({
                 icon: "success",
-                title: "Éxito papi",
+                title: "Registro Exitoso!!",
                 text: json.msg
             });
             document.getElementById('frm_user').reset();
         } else {
             Swal.fire({
                 icon: "error",
-                title: "Error",
+                title: "Error al registrar Usuario",
                 text: json.msg
             });
         }
