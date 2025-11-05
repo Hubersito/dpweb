@@ -52,7 +52,7 @@ async function registrarUsuario() {
         if (json.msg) {
             Swal.fire({
                 icon: "success",
-                title: "Éxito",
+                title: "Éxito papi",
                 text: json.msg
             });
             document.getElementById('frm_user').reset();
@@ -64,7 +64,7 @@ async function registrarUsuario() {
             });
         }
     } catch (error) {
-        console.log("Error al registrar categoría: " + error);
+        console.log("Error al registrar Usuario: " + error);
     }
 }
 
