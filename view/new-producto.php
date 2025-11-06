@@ -78,7 +78,7 @@
             <i class="bi bi-image"></i> Imagen
           </label>
           <div class="col-sm-10">
-            <input type="file" class="form-control" id="imagen" name="imagen" accept="">
+            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/png, image/jpg, image/jpeg">
           </div>
         </div>
 

@@ -287,9 +287,9 @@ async function cargar_proveedores() {
 
 
 
-async function view_productos_minimal() {
+async function viewMisProducts() {
     try {
-        let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrar_productos', {
+        let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrarMisProductos', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache'
@@ -301,7 +301,7 @@ async function view_productos_minimal() {
         if (json.status && json.data && json.data.length > 0) {
             json.data.forEach(producto => {
                 // Ajusta campo 'imagen' al nombre real que devuelve tu API
-                let imgSrc = producto.imagen ? (base_url + 'assets/images/products/' + producto.imagen) : (base_url + 'assets/images/no-image.png');
+                let imgSrc = producto.imagen ? (base_url + 'assets/images/productos/' + producto.imagen) : (base_url + 'assets/images/no-image.png');
                 html += `
                     <div class="col-6 col-sm-4 col-md-3">
                         <div class="card mb-3 product-card">
@@ -321,12 +321,12 @@ async function view_productos_minimal() {
         const container = document.getElementById('productos_grid');
         if (container) container.innerHTML = html;
     } catch (error) {
-        console.error("Error al cargar productos (minimal):", error);
+        console.error("Error al cargar productos :", error);
         const container = document.getElementById('productos_grid');
         if (container) container.innerHTML = '<div class="col-12"><div class="alert alert-danger mb-0">Error al cargar los productos</div></div>';
     }
 }
 
 if (document.getElementById('productos_grid')) {
-    view_productos_minimal();
+    viewMisProducts();
 }
