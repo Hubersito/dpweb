@@ -84,21 +84,21 @@ function cancelar() {
 
 async function view_producto() {
     try {
-    let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrar_productos', {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache'
-    });
-    if (!respuesta.ok) {
+        let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrar_productos', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        if (!respuesta.ok) {
             throw new Error(`HTTP error! status: ${respuesta.status}`);
         }
-        
+
         let json = await respuesta.json();
-        
+
         if (json.status && json.data && json.data.length > 0) {
-        let html = '';
-        json.data.forEach((producto, index) => {
-            html += `<tr>
+            let html = '';
+            json.data.forEach((producto, index) => {
+                html += `<tr>
                     <td>${index + 1}</td>
                     <td>${producto.codigo || ''}</td>
                     <td>${producto.nombre || ''}</td>
@@ -112,12 +112,12 @@ async function view_producto() {
                         <button onclick="eliminar(` + producto.id + `)" class="btn btn-danger">Eliminar</button>
                     </td>
                 </tr>`;
-        });
-        document.getElementById('content_productos').innerHTML = html;
-    } else {
-        document.getElementById('content_productos').innerHTML = '<tr><td colspan="9">No hay productos disponibles</td></tr>';
-    }
-    }catch (error) {
+            });
+            document.getElementById('content_productos').innerHTML = html;
+        } else {
+            document.getElementById('content_productos').innerHTML = '<tr><td colspan="9">No hay productos disponibles</td></tr>';
+        }
+    } catch (error) {
         console.error("Error al cargar productos:", error);
         document.getElementById('content_productos').innerHTML = '<tr><td colspan="9">Error al cargar los productos</td></tr>';
     }
@@ -304,15 +304,23 @@ async function viewMisProducts() {
                 let imgSrc = producto.imagen ? (base_url + 'assets/images/productos/' + producto.imagen) : (base_url + 'assets/images/no-image.png');
                 html += `
                     <div class="col-6 col-sm-4 col-md-3">
-                        <div class="card mb-3 product-card">
-                            <img src="${imgSrc}" class="card-img-top" alt="${producto.nombre || ''}" style="height:140px;object-fit:cover;">
-                            <div class="card-body p-2">
-                                <p class="mb-1 small text-truncate">${producto.nombre || ''}</p>
-                                <p class="mb-1"><strong>Precio:</strong> ${producto.precio || '0'}</p>
-                                <p class="mb-0 small text-muted">Categoría: ${producto.categoria || 'Sin categoría'}</p>
-                            </div>
-                        </div>
-                    </div>
+    <div class="card mb-3 product-card">
+        <img src="${imgSrc}" class="card-img-top" alt="${producto.nombre || ''}" style="height:140px;object-fit:cover;">
+        <div class="card-body p-2">
+            <p class="mb-1 small text-truncate">${producto.nombre || ''}</p>
+            <p class="mb-1"><strong>Precio:</strong> ${producto.precio || '0'}</p>
+            <p class="mb-0 small text-muted">Categoría: ${producto.categoria || 'Sin categoría'}</p>
+            <div class="d-flex justify-content-between mt-2">
+                <button class="btn btn-primary btn-sm" onclick="agregarAlCarrito(${producto.id})">
+                    <i class="fas fa-shopping-cart"></i> Agregar
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" onclick="verDetalles(${producto.id})">
+                    <i class="fas fa-eye"></i> Ver más
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
                 `;
             });
         } else {
@@ -330,3 +338,5 @@ async function viewMisProducts() {
 if (document.getElementById('productos_grid')) {
     viewMisProducts();
 }
+
+
