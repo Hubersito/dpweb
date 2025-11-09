@@ -10,14 +10,15 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
   <script>
-    const base_url = '<?php echo BASE_URL;?>';
+    const base_url = '<?php echo BASE_URL; ?>';
   </script>
 
   <style>
     body {
       font-family: "Segoe UI", Arial, sans-serif;
-      background-color: #f4f6f8;
+      background: linear-gradient(to right, #4c4ae2ff, #cf13feff);
     }
+
 
     /* Estilo de barra de navegación */
     .navbar {
@@ -134,7 +135,9 @@
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Perfil</a></li>
                 <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Ajustes</a></li>
-                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
                 <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
               </ul>
             </li>
