@@ -90,6 +90,12 @@
             </li>
 
             <li class="nav-item">
+              <a class="nav-link" href="<?= BASE_URL ?>productos">
+                <i class="bi bi-box-seam"></i> View-Client
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a class="nav-link" href="<?= BASE_URL ?>new-producto">
                 <i class="bi bi-box-seam"></i> Products
               </a>
