@@ -1,19 +1,62 @@
-
 <?php
-// Vista simple para mostrar los productos en grid.
-// Incluye tu header/plantilla según tu proyecto.
-// Asegúrate que la variable PHP base_url (o constante) exista y coincida con la que usa JS.
-$base = defined('BASE_URL') ? BASE_URL : '/'; // ajustar según tu proyecto
+$base = defined('BASE_URL') ? BASE_URL : '/';
 ?>
+
 <div class="container py-3">
-    <h2>Productos</h2>
-    <div id="productos_grid" class="row g-2">
-        <!-- El contenido se rellenará desde JS -->
+
+    <div class="row mb-3">
+        <div class="col-4 mx-auto">
+            <div class="border rounded shadow-sm bg-light">
+                <input type="text" id="buscarProducto" class="form-control" placeholder=" Escribe el nombre o código del producto...">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row g-2" id="productos_grid"></div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="carrito_grid" class="p-3 border rounded bg-light shadow-sm position-relative" style="min-height: 500px; display: flex; flex-direction: column;">
+
+                <h5 class="text-center mb-3">🛒 Carrito de Compras</h5>
+                <table class="table table-sm table-hover align-middle mb-0">
+                    <thead class="table-primary text-center">
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCarrito">
+                        <tr>
+                            <td colspan="5" class="py-3">
+                                No hay productos en la lista.                             
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <h5>Subtotal: <label id="">$20.00</label></h5>
+                        <h5>IGV: <label id="">$3.60</label></h5>
+                        <h5>Total: <label id="">$23.60</label></h5>
+                    </div>
+                </div>
+
+                <div class="position-absolute bottom-0 start-0 end-0 p-3 text-center" style="background-color: #f8f9fa; border-top: 1px solid #ccc;">
+                    <button type="submit" class="btn btn-danger w-10">Pagar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    // Proporciona base_url al JS. Ajusta si tu proyecto ya lo define en otro lado.
     var base_url = '<?php echo $base; ?>';
 </script>
-<script src="<?php echo $base; ?>view/function/producto.js"></script>
+<script src="<?php echo BASE_URL; ?>view/function/producto.js"></script>
+<script src="<?php echo BASE_URL; ?>view/function/venta.js"></script>
