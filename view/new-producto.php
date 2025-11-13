@@ -10,7 +10,7 @@
 
         <div class="mb-3 row">
           <label for="codigo" class="col-sm-2 col-form-label ">
-            <i class="bi bi-upc text-primary"></i> Código
+            <i class="bi bi-tag "></i> Código
           </label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="codigo" name="codigo" required>
@@ -19,7 +19,7 @@
 
         <div class="mb-3 row">
           <label for="nombre" class="col-sm-2 col-form-label ">
-            <i class="bi bi-tag"></i> Nombre
+            <i class=" bi bi-bag"></i> Nombre
           </label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="nombre" name="nombre" required>
@@ -37,7 +37,7 @@
 
         <div class="mb-3 row">
           <label for="precio" class="col-sm-2 col-form-label ">
-            <i class="bi bi-currency-dollar"></i> Precio
+            <i class="bi bi-cash-coin"></i> Precio
           </label>
           <div class="col-sm-10">
             <input type="number" step="0.01" class="form-control" id="precio" name="precio" required>

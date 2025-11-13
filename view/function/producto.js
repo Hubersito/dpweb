@@ -82,6 +82,53 @@ function cancelar() {
     });
 }
 
+
+/*async function view_producto() {
+    try {
+        let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrar_productos', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        console.log('Respuesta recibida:', respuesta);
+        json = await respuesta.json();
+        console.log('Datos recibidos:', json);
+        contenidot = document.getElementById('content_products');
+        if (json.status) {
+            let cont = 1;
+            json.data.forEach(producto => {
+                let nueva_fila = document.createElement("tr");
+                nueva_fila.id = "fila" + producto.id;
+                nueva_fila.className = "filas_tabla";
+                nueva_fila.innerHTML = `
+                            <td>${cont}</td>
+                            <td>${producto.codigo}</td>
+                            <td>${producto.nombre}</td>
+                            <td>${producto.detalle}</td>
+                            <td>${producto.precio}</td>
+                            <td>${producto.stock}</td>
+                            <td>${producto.categoria}</td>
+                            <td>${producto.fecha_vencimiento}</td>
+                            <td><svg id="barcode${producto.id}"></svg></td>
+                            <td>
+                        <a href="${base_url}productos-edit/${producto.id}" class="btn btn-primary">Editar</a>
+                        <button onclick="eliminar(` + producto.id + `)" class="btn btn-danger">Eliminar</button>
+                    </td>
+                            `;
+                cont++;
+                contenidot.appendChild(nueva_fila);
+                //JsBarcode("#barcode" + producto.id, "Hi world!");
+                JsBarcode("#barcode" + producto.id, producto.codigo, { format: "CODE128", width: 2, height: 40 });
+            });
+        }
+    } catch (e) {
+        console.log('error en mostrar producto ' + e);
+    }
+}
+if (document.getElementById('content_products')) {
+    view_producto();
+}*/
+
 async function view_producto() {
     try {
         let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrar_productos', {
@@ -107,21 +154,35 @@ async function view_producto() {
                     <td>${producto.categoria || ''}</td>
                     <td>${producto.proveedor || ''}</td>
                     <td>${producto.fecha_vencimiento || ''}</td>
+                    <td><svg id="barcode${producto.id}"></svg></td>
+
                     <td>
                         <a href="${base_url}productos-edit/${producto.id}" class="btn btn-primary">Editar</a>
                         <button onclick="eliminar(` + producto.id + `)" class="btn btn-danger">Eliminar</button>
                     </td>
                 </tr>`;
+
             });
+
             document.getElementById('content_productos').innerHTML = html;
+
         } else {
             document.getElementById('content_productos').innerHTML = '<tr><td colspan="9">No hay productos disponibles</td></tr>';
+
         }
+        json.data.forEach(producto => {
+            JsBarcode("#barcode" + producto.id, "" + producto.codigo,{
+                width:2,
+                height:30
+            });
+        });
     } catch (error) {
         console.error("Error al cargar productos:", error);
         document.getElementById('content_productos').innerHTML = '<tr><td colspan="9">Error al cargar los productos</td></tr>';
     }
+
 }
+
 
 if (document.getElementById('content_productos')) {
     view_producto();
