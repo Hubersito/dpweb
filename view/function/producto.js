@@ -347,13 +347,19 @@ async function cargar_proveedores() {
 }
 
 
+// arreglar esta funcion 
 
-async function viewMisProducts() {
+async function ListaProductosParaVenta() {
     try {
-        let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrarMisProductos', {
+        let dato = document.getElementById('busqueda_venta').value;
+        const datos = new FormData();
+        datos.append('dato', dato);
+
+        let respuesta = await fetch(base_url + 'control/productosController.php?tipo=buscarProducto_venta', {
             method: 'POST',
             mode: 'cors',
-            cache: 'no-cache'
+            cache: 'no-cache',
+            body : datos
         });
         if (!respuesta.ok) throw new Error(`HTTP error! status: ${respuesta.status}`);
         let json = await respuesta.json();
@@ -390,15 +396,16 @@ async function viewMisProducts() {
         } else {
             html = '<div class="col-12"><div class="alert alert-info mb-0">No hay productos disponibles</div></div>';
         }
-        const container = document.getElementById('productos_grid');
-        if (container) container.innerHTML = html;
+        contenido = document.getElementById('productos_venta');
+        if (contenido) contenido.innerHTML = html;
     } catch (error) {
         console.error("Error al cargar productos :", error);
-        const container = document.getElementById('productos_grid');
-        if (container) container.innerHTML = '<div class="col-12"><div class="alert alert-danger mb-0">Error al cargar los productos</div></div>';
+        contenido.innerHTML = '';
+        /*const contenido = document.getElementById('productos_venta');*/
+        if (contenido) contenido.innerHTML = '<div class="col-12"><div class="alert alert-danger mb-0">Error al cargar los productos</div></div>';
     }
 }
 
-if (document.getElementById('productos_grid')) {
-    viewMisProducts();
+if (document.getElementById('productos_venta')) {
+    ListaProductosParaVenta();
 }

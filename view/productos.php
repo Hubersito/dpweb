@@ -7,14 +7,14 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
     <div class="row mb-3">
         <div class="col-4 mx-auto">
             <div class="border rounded shadow-sm bg-light">
-                <input onkeypress="viewMisProducts()" type="text" id="busqueda_venta" class="form-control" placeholder=" Escribe el nombre o código del producto...">
+                <input onkeyup="ListaProductosParaVenta();" type="text" id="busqueda_venta" class="form-control" placeholder=" Escribe el nombre o código del producto...">
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-8">
-            <div class="row g-2" id="productos_grid"></div>
+            <div class="row g-2" id="productos_venta"></div>
         </div>
 
         <div class="col-md-4">
