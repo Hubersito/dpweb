@@ -100,4 +100,16 @@ class ProductsModel
         }
         return $arr_productos;
     }
+
+
+    public function buscarProductoforNameOrCode($dato)
+    {
+        $arr_productos = array();
+        $consulta = "SELECT * FROM producto WHERE codigo LIKE '$dato%' OR nombre LIKE '%$dato%' OR detalle LIKE '%$dato%'";
+        $sql = $this->conexion->query($consulta);
+        while ($objeto = $sql->fetch_object()) {
+            array_push($arr_productos, $objeto);
+        }
+        return $arr_productos;
+    }
 }
