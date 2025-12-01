@@ -21,10 +21,10 @@ console.log(productos_venta);
 
 
 // Función para agregar un producto al carrito de venta
- async function agregar_producto_temporal() {
-    let id = document.getElementById ('id_producto_venta').value;
-    let precio = document.getElementById ('producto_precio_venta').value;
-    let cantidad = document.getElementById ('producto_cantidad_venta').value;
+async function agregar_producto_temporal() {
+    let id = document.getElementById('id_producto_venta').value;
+    let precio = document.getElementById('producto_precio_venta').value;
+    let cantidad = document.getElementById('producto_cantidad_venta').value;
 
     const datos = new FormData();
     datos.append('id_producto', id);
@@ -38,13 +38,16 @@ console.log(productos_venta);
             body: datos
         });
         json = await respuesta.json();
-        if (!json.status) {
-            if(json.msg ="registrado"){
-                alert("el producto  fue registrado");
-            }else{
-                alert("el producto  fue actualizado");
+        // corregir comprobación: status true = éxito
+        if (json.status) {
+            if (json.msg === 'registrado') {
+                alert("El producto fue registrado");
+                console.log("respuesta:", json);
+            } else {
+                alert("El producto fue actualizado");
+                console.log("respuesta:", json);
+                return;
             }
-            return;
         }
     } catch (error) {
         console.log("error al agregar producto temporal" + error);

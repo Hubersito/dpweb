@@ -9,6 +9,7 @@ $tipo = $_GET['tipo'];
 
 
 if ($tipo == "registrarTemporal") {
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
     $id_producto = $_POST['id_producto'];
     $precio = $_POST['precio'];
     $cantidad = $_POST['cantidad'];
@@ -18,10 +19,10 @@ if ($tipo == "registrarTemporal") {
     if ($b_producto) {
         $nueva_cantidad = $b_producto->cantidad + 1;
         $objVenta->actualizarCantidadTemporal($id_producto, $nueva_cantidad);
-        $respuesta = array('status' => false , 'msg' => 'actualizado');
+        $respuesta = array('status' => true , 'msg' => 'actualizado');
     } else {
         $registro = $objVenta->registrar_temporal($id_producto, $precio, $cantidad);
-        $respuesta = array('status' => false, 'msg' => 'registrado');
+        $respuesta = array('status' => true, 'msg' => 'registrado');
     }
     echo json_encode($respuesta);
 }
