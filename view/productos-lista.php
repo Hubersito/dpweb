@@ -2,8 +2,6 @@
   <div class="card shadow-lg border-0">
     <div class="card-header bg-primary text-white text-center fs-5 fw-bold">
       <i class="bi bi-box-seam text-warning me-2"></i> Lista de Productos
-                    <a href="<?php echo BASE_URL; ?>productos" class="btn btn-success">Mis Productos</a>
-
     </div>
 
     <div class="card-body">
