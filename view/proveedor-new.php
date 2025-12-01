@@ -9,11 +9,29 @@
             <div class="card-body">
 
                 <div class="mb-3 row">
+                    <label for="tipo_documento" class="col-sm-3 col-form-label ">
+                        <i class="bi bi-card-checklist text-primary"></i> Tipo Documento
+                    </label>
+                    <div class="col-sm-9">
+                        <select class="form-select" aria-label="Tipo de documento" id="tipo_documento"
+                            name="tipo_documento" required>
+                            <option value="dni">DNI</option>
+                            <option value="ruc">RUC</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
                     <label for="nro_identidad" class="col-sm-3 col-form-label ">
                         <i class="bi bi-credit-card text-primary"></i> N° Documento
                     </label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" id="nro_identidad" name="nro_identidad" required>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="nro_identidad" name="nro_identidad" required>
+                            <button type="button" class="btn btn-outline-primary" id="btn_buscar_documento">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -113,3 +131,87 @@
 </div>
 
 <script src="<?php echo BASE_URL; ?>view/function/proveedor.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<script>
+    // Función para buscar documento (DNI o RUC)
+    $('#btn_buscar_documento').click(function() {
+        let tipoDocumento = $('#tipo_documento').val();
+        let numeroDocumento = $('#nro_identidad').val().trim();
+
+        if (tipoDocumento === 'dni') {
+            if (numeroDocumento.length !== 8 || isNaN(numeroDocumento)) {
+                alert("Ingrese un DNI válido de 8 dígitos");
+                return;
+            }
+
+            $.ajax({
+                url: 'control/consulta_dni.php',
+                type: 'POST',
+                data: {
+                    dni: numeroDocumento
+                },
+                dataType: 'json',
+                success: function(r) {
+                    if (r.numeroDocumento === numeroDocumento) {
+                        let nombreCompleto = `${r.nombres} ${r.apellidoPaterno} ${r.apellidoMaterno}`;
+                        $('#razon_social').val(nombreCompleto);
+                    } else {}
+                    console.log(r);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la consulta:", error);
+                    console.log(xhr.responseText);
+                }
+            });
+
+        } else if (tipoDocumento === 'ruc') {
+            if (numeroDocumento.length !== 11 || isNaN(numeroDocumento)) {
+                alert("Ingrese un RUC válido de 11 dígitos");
+                return;
+            }
+
+            $.ajax({
+                url: 'control/consulta_ruc.php',
+                type: 'POST',
+                data: {
+                    ruc: numeroDocumento
+                },
+                dataType: 'json',
+                success: function(r) {
+                    if (r.numeroDocumento === numeroDocumento) {
+                        $('#razon_social').val(r.razonSocial || r.nombre);
+
+                        if (r.direccion) {
+                            $('#direccion').val(r.direccion);
+                        }
+                    } else {}
+                    console.log(r);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la consulta:", error);
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    });
+
+    $('#tipo_documento').change(function() {
+        let tipo = $(this).val();
+        let inputDoc = $('#nro_identidad');
+
+        if (tipo === 'dni') {
+            inputDoc.attr('maxlength', '8');
+            inputDoc.attr('placeholder', 'Ingrese 8 dígitos');
+        } else {
+            inputDoc.attr('maxlength', '11');
+            inputDoc.attr('placeholder', 'Ingrese 11 dígitos');
+        }
+    });
+
+    $(document).ready(function() {
+        $('#tipo_documento').trigger('change');
+    });
+</script>

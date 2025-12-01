@@ -102,7 +102,11 @@
                     </label>
                     <div class="col-sm-9">
                         <select class="form-select" aria-label="Default select example" id="rol" name="rol" required readonly>
+                            <option value="administrador" selected>Administrador</option>
                             <option value="proveedor" selected>Proveedor</option>
+                            <option value="cliente" selected>Cliente</option>
+                            <option value="almacen" selected>Almacen</option>
+                            <option value="usuario" selected>Usuario</option>
                         </select>
                     </div>
                 </div>
