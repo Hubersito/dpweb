@@ -7,7 +7,12 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
     <div class="row mb-3">
         <div class="col-4 mx-auto">
             <div class="border rounded shadow-sm bg-light">
-                <input onkeyup="ListaProductosParaVenta();" type="text" id="busqueda_venta" class="form-control" placeholder=" Escribe el nombre o código del producto...">
+                <input onkeyup="ListaProductosParaVenta();"
+                    type="text" id="busqueda_venta" class="form-control" placeholder=" Escribe el nombre o código del producto...">
+                    <input type="hidden" id="id_producto_venta">
+                    <input type="hidden" id="producto_precio_venta">
+                    <!-- se sabe que el valor ´por defecto es 1-->
+                    <input type="hidden" id="producto_cantidad_venta" value="1">
             </div>
         </div>
     </div>
@@ -22,32 +27,32 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
 
                 <h5 class="text-center mb-3">🛒 Carrito de Compras</h5>
                 <div class="table-responsive">
-                <table class="table table-sm table-hover align-middle mb-0">
-                    <thead class="table-primary text-center">
-                        <tr>
-                            <th>Producto</th>
-                            <th>Cant.</th>
-                            <th>Precio</th>
-                            <th>Subtotal</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaCarrito">
-                        <tr>
-                            <td colspan="5" class="py-3">
-                               01101000 01110101 01100010 01100101 01110010                        
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="row">
-                    <div class="col-12 text-end">
-                        <h5>Subtotal: <label id="">$20.00</label></h5>
-                        <h5>IGV: <label id="">$3.60</label></h5>
-                        <h5>Total: <label id="">$23.60</label></h5>
+                    <table class="table table-sm table-hover align-middle mb-0">
+                        <thead class="table-primary text-center">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cant.</th>
+                                <th>Precio</th>
+                                <th>Subtotal</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaCarrito">
+                            <tr>
+                                <td colspan="5" class="py-3">
+                                    01101000 01110101 01100010 01100101 01110010
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-12 text-end">
+                            <h5>Subtotal: <label id="">$20.00</label></h5>
+                            <h5>IGV: <label id="">$3.60</label></h5>
+                            <h5>Total: <label id="">$23.60</label></h5>
+                        </div>
                     </div>
                 </div>
-            </div>
 
                 <div class="position-absolute bottom-0 start-0 end-0 p-3 text-center" style="background-color: #f8f9fa; border-top: 1px solid #ccc;">
                     <button type="submit" class="btn btn-danger w-10">Pagar</button>
@@ -60,3 +65,11 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
 
 <script src="<?php echo BASE_URL; ?>view/function/producto.js"></script>
 <script src="<?php echo BASE_URL; ?>view/function/venta.js"></script>
+<script>
+    let input = document.getElementById("busqueda_venta");
+    input.addEventListener('keydown', event => {
+        if (event.key == 'Enter') {
+            agregar_producto_temporal();
+        }
+    })
+</script>
