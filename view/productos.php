@@ -9,10 +9,10 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
             <div class="border rounded shadow-sm bg-light">
                 <input onkeyup="ListaProductosParaVenta();"
                     type="text" id="busqueda_venta" class="form-control" placeholder=" Escribe el nombre o código del producto...">
-                    <input type="hidden" id="id_producto_venta">
-                    <input type="hidden" id="producto_precio_venta">
-                    <!-- se sabe que el valor ´por defecto es 1-->
-                    <input type="hidden" id="producto_cantidad_venta" value="1">
+                <input type="hidden" id="id_producto_venta">
+                <input type="hidden" id="producto_precio_venta">
+                <!-- se sabe que el valor ´por defecto es 1-->
+                <input type="hidden" id="producto_cantidad_venta" value="1">
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
                     <table class="table table-sm table-hover align-middle mb-0">
                         <thead class="table-primary text-center">
                             <tr>
-                                <th>Producto</th>
+                                <th>Product.</th>
                                 <th>Cant.</th>
                                 <th>Precio</th>
                                 <th>Subtotal</th>
@@ -38,18 +38,15 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
                             </tr>
                         </thead>
                         <tbody id="tablaCarrito">
-                            <tr>
-                                <td colspan="5" class="py-3">
-                                    01101000 01110101 01100010 01100101 01110010
-                                </td>
-                            </tr>
+                            <!-- Los productos agregados al carrito se mostrarán aquí -->
+
                         </tbody>
                     </table>
                     <div class="row">
                         <div class="col-12 text-end">
-                            <h5>Subtotal: <label id="">$20.00</label></h5>
-                            <h5>IGV: <label id="">$3.60</label></h5>
-                            <h5>Total: <label id="">$23.60</label></h5>
+                            <h5>Subtotal: <label id="subtotal">$0.00</label></h5>
+                            <h5>IGV: <label id="igv">$0.00</label></h5>
+                            <h5>Total: <label id="total">$0.00</label></h5>
                         </div>
                     </div>
                 </div>
@@ -71,5 +68,5 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
         if (event.key == 'Enter') {
             agregar_producto_temporal();
         }
-    })
+    });
 </script>

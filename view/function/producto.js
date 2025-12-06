@@ -83,51 +83,6 @@ function cancelar() {
 }
 
 
-/*async function view_producto() {
-    try {
-        let respuesta = await fetch(base_url + 'control/productosController.php?tipo=mostrar_productos', {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache'
-        });
-        console.log('Respuesta recibida:', respuesta);
-        json = await respuesta.json();
-        console.log('Datos recibidos:', json);
-        contenidot = document.getElementById('content_products');
-        if (json.status) {
-            let cont = 1;
-            json.data.forEach(producto => {
-                let nueva_fila = document.createElement("tr");
-                nueva_fila.id = "fila" + producto.id;
-                nueva_fila.className = "filas_tabla";
-                nueva_fila.innerHTML = `
-                            <td>${cont}</td>
-                            <td>${producto.codigo}</td>
-                            <td>${producto.nombre}</td>
-                            <td>${producto.detalle}</td>
-                            <td>${producto.precio}</td>
-                            <td>${producto.stock}</td>
-                            <td>${producto.categoria}</td>
-                            <td>${producto.fecha_vencimiento}</td>
-                            <td><svg id="barcode${producto.id}"></svg></td>
-                            <td>
-                        <a href="${base_url}productos-edit/${producto.id}" class="btn btn-primary">Editar</a>
-                        <button onclick="eliminar(` + producto.id + `)" class="btn btn-danger">Eliminar</button>
-                    </td>
-                            `;
-                cont++;
-                contenidot.appendChild(nueva_fila);
-                //JsBarcode("#barcode" + producto.id, "Hi world!");
-                JsBarcode("#barcode" + producto.id, producto.codigo, { format: "CODE128", width: 2, height: 40 });
-            });
-        }
-    } catch (e) {
-        console.log('error en mostrar producto ' + e);
-    }
-}
-if (document.getElementById('content_products')) {
-    view_producto();
-}*/
 
 async function view_producto() {
     try {
@@ -379,9 +334,9 @@ async function ListaProductosParaVenta() {
                                     <p class="mb-1"><strong>Precio:</strong> ${producto.precio || '0'}</p>
                                     <p class="mb-0 small text-muted">Categoría: ${producto.categoria || 'Sin categoría'}</p>
                                         <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-success btn-sm" onclick="agregarAlCarrito(${producto.id})">
-                                                <i class="fas fa-shopping-cart"></i> Agregar al carrito
-                                            </button>
+                                                <button class="btn btn-success btn-sm" onclick="agregar_producto_temporales(${producto.id}, ${producto.precio}, 1)">
+                                                    <i class="fas fa-shopping-cart"></i> Agregar al carrito
+                                                </button>
                                                 <button class="btn btn-primary btn-sm" onclick="verDetalles(${producto.id})">
                                                   <i class="fas fa-eye"></i> Ver detalles
                                                 </button>
@@ -393,18 +348,18 @@ async function ListaProductosParaVenta() {
                     </div>
                 `;
                 let id = document.getElementById('id_producto_venta');
-        let precio = document.getElementById('producto_precio_venta');
-        let cantidad = document.getElementById('producto_cantidad_venta');
-        id.value =producto.id;
-        precio.value = producto.precio;
-        cantidad.value=1;
+                let precio = document.getElementById('producto_precio_venta');
+                let cantidad = document.getElementById('producto_cantidad_venta');
+                id.value = producto.id;
+                precio.value = producto.precio;
+                cantidad.value = 1;
             });
         } else {
             html = '<div class="col-12"><div class="alert alert-info mb-0">No hay productos disponibles</div></div>';
         }
         contenido = document.getElementById('productos_venta');
         if (contenido) contenido.innerHTML = html;
-        
+
     } catch (error) {
         console.error("Error al cargar productos :", error);
         contenido.innerHTML = '';

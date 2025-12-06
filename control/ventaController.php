@@ -14,15 +14,31 @@ if ($tipo == "registrarTemporal") {
     $precio = $_POST['precio'];
     $cantidad = $_POST['cantidad'];
 
-    $b_producto = $objVenta->buscarTemporal($id_producto);
+    $b_producto = $objVenta->buscarTemporal($id_producto); 
 
     if ($b_producto) {
         $nueva_cantidad = $b_producto->cantidad + 1;
         $objVenta->actualizarCantidadTemporal($id_producto, $nueva_cantidad);
-        $respuesta = array('status' => true , 'msg' => 'actualizado');
+        $respuesta = array('status' => true, 'msg' => 'actualizado');
     } else {
         $registro = $objVenta->registrar_temporal($id_producto, $precio, $cantidad);
         $respuesta = array('status' => true, 'msg' => 'registrado');
+    }
+    echo json_encode($respuesta);
+}
+
+
+
+
+if ($tipo == "ver") {
+    $respuesta = array('status' => false, 'msg' => '');
+    $id_producto = $_POST['id_producto'];
+    $producto = $objVenta->verTemporal($id_producto);
+    if ($producto) {
+        $respuesta['status'] = true;
+        $respuesta['data'] = $producto;
+    } else {
+        $respuesta['msg'] = "Error, producto no encontrado";
     }
     echo json_encode($respuesta);
 }
