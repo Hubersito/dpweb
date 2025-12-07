@@ -38,10 +38,14 @@ class VentaModel
         return $sql;
     }
 
+
     public function buscarTemporales()
     {
         $arr_temporal = array();
-        $consulta = "SELECT * FROM temporal_venta";
+        $consulta = "SELECT t.*, p.nombre, p.precio as precio_real 
+                 FROM temporal_venta t
+                 INNER JOIN productos p ON p.id = t.id_producto";
+
         $sql = $this->conexion->query($consulta);
         while ($objeto = $sql->fetch_object()) {
             array_push($arr_temporal, $objeto);
@@ -51,14 +55,15 @@ class VentaModel
 
     public function eliminarTemporalVenta($id)
     {
-        $consulta = "DELETE * FROM temporal_venta WHERE id='$id'";
+        $consulta = "DELETE FROM temporal_venta WHERE id='$id'";
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
 
+
     public function eliminarTemporales()
     {
-        $consulta = "DELETE * FROM temporal_venta";
+        $consulta = "DELETE  FROM temporal_venta";
         $sql = $this->conexion->query($consulta);
         return $sql;
     }
@@ -70,7 +75,9 @@ class VentaModel
     public function mostrarProductosTemporal()
     {
         $arr_temporal = array();
-        $consulta = "SELECT * FROM temporal_venta";
+        $consulta = "SELECT t.*, p.nombre, p.precio as precio_real 
+                 FROM temporal_venta t
+                 INNER JOIN producto p ON p.id = t.id_producto";
         $sql = $this->conexion->query($consulta);
         while ($objeto = $sql->fetch_object()) {
             array_push($arr_temporal, $objeto);

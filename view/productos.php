@@ -44,9 +44,13 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
                     </table>
                     <div class="row">
                         <div class="col-12 text-end">
-                            <h5>Subtotal: <label id="subtotal">$0.00</label></h5>
-                            <h5>IGV: <label id="igv">$0.00</label></h5>
-                            <h5>Total: <label id="total">$0.00</label></h5>
+                            Subtotal General: <span id="subtotal_final">0.00</span>
+                        </div>
+                        <div class="col-12 text-end">
+                            IGV (18%): <span id="igv_final">0.00</span>
+                        </div>
+                        <div class="col-12 text-end">
+                            Total a Pagar: <span id="total_final">0.00</span>
                         </div>
                     </div>
                 </div>
