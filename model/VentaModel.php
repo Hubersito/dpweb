@@ -85,7 +85,6 @@ class VentaModel
         return $arr_temporal;
     }
 
-
     public function verTemporal($id)
     {
         $consulta = "SELECT * FROM temporal_venta WHERE id = '$id'";

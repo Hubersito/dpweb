@@ -14,7 +14,7 @@ if ($tipo == "registrarTemporal") {
     $precio = $_POST['precio'];
     $cantidad = $_POST['cantidad'];
 
-    $b_producto = $objVenta->buscarTemporal($id_producto); 
+    $b_producto = $objVenta->buscarTemporal($id_producto);
 
     if ($b_producto) {
         $nueva_cantidad = $b_producto->cantidad + 1;
@@ -46,14 +46,11 @@ if ($tipo == "ver") {
 
 
 if ($tipo == "listarTemporal") {
-    $respuesta = array('status' => false, 'msg' => '');
     $temporales = $objVenta->mostrarProductosTemporal();
-    if (!empty($temporales)) {
-        $respuesta['status'] = true;
-        $respuesta['data'] = $temporales;
-    }
+    $respuesta = array('status' => true,'data' => $temporales);
     echo json_encode($respuesta);
 }
+
 
 
 if ($tipo == "eliminar") {

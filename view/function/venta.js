@@ -69,12 +69,13 @@ async function eliminar_temporal(id) {
     let json = await res.json();
 
     if (json.status) {
-        actualizarCarrito(); // 🚀 refresca inmediatamente
+        actualizarCarrito();
         Swal.fire({ icon: "success", title: "Producto eliminado" })
 
     } else {
         Swal.fire({ icon: "error", title: "Error al eliminar" })
     }
+    //await actualizarCarrito();
 }
 
 async function actualizarCarrito() {
@@ -99,7 +100,9 @@ async function actualizarCarrito() {
                     <td>${p.precio}</td>
                     <td>${subtotal.toFixed(2)}</td>
                     <td>
-                        <button onclick="eliminar_temporal(${p.id})" class="btn btn-sm btn-danger">X</button>
+                        <button onclick="eliminar_temporal(${p.id})" class="btn btn-sm btn-danger">
+                             <i class="bi bi-trash"></i>
+                        </button>
                     </td>
                 </tr>`;
             });
