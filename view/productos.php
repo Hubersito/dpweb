@@ -47,13 +47,13 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 text-end">
-                                    Subtotal General: <span id="subtotal_final">0.00</span>
+                                    Subtotal General: <label id="subtotal_final"></label>
                                 </div>
                                 <div class="col-12 text-end">
-                                    IGV (18%): <span id="igv_final">0.00</span>
+                                    IGV (18%): <label id="igv_final"></label>
                                 </div>
                                 <div class="col-12 text-end fw-bold">
-                                    Total a Pagar: <span id="total_final">0.00</span>
+                                    Total a Pagar: <label id="total_final"></label>
                                 </div>
                             </div>
                         </div>
