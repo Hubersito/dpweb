@@ -90,34 +90,34 @@ async function actualizarCarrito() {
 
             json.data.forEach(t => {
 
-                /*let subtotal = t.precio * t.cantidad;
-                subtotalGeneral += subtotal;*/
+                 let subtotal = parseFloat(t.precio) * parseFloat(t.cantidad);
+                        subtotalGeneral += subtotal;
 
-                listaTemporal += `
-                <tr>
-                    <td>${t.nombre}</td>
-                    <td><input type="number" id="cant_${t.id}" value="${t.cantidad}" style ="width: 50px;" onkeyup="actualizarSubtotal(${t.id},${t.precio}); onchange="actualizarSubtotal(${t.id},${t.precio})"></td>
-                    <td>${t.precio}</td>
-                    <input type="hidden" id="precio_${t.id}" value="${t.precio}">
-                    <td id="subtotal_${t.id}">${t.precio * t.cantidad}</td>
-                    <td>
-                        <button onclick="eliminar_temporal(${t.id})" class="btn btn-sm btn-danger">
-                             <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>`;
+                        listaTemporal += `
+                        <tr>
+                            <td>${t.nombre}</td>
+                            <td><input type="number" id="cant_${t.id}" value="${t.cantidad}" style="width:50px;" onkeyup="actualizarSubtotal(${t.id}, ${t.precio});" onchange="actualizarSubtotal(${t.id}, ${t.precio});"></td>
+                            <td>S/ ${parseFloat(t.precio).toFixed(2)}</td>
+                            <input type="hidden" id="precio_${t.id}" value="${t.precio}">
+                            <td id="subtotal_${t.id}">S/ ${subtotal.toFixed(2)}</td>
+                            <td>
+                                <button onclick="eliminar_temporal(${t.id})" class="btn btn-sm btn-danger">
+                                     <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>`;
             });
 
-            // Insertamos en la tabla
-            document.getElementById("tablaCarrito").innerHTML = listaTemporal;
+           // Insertamos en la tabla
+                    document.getElementById("tablaCarrito").innerHTML = listaTemporal;
 
-            /*/ Cálculos finales
-            let igv = subtotalGeneral * 0.18;
-            let totalFinal = subtotalGeneral + igv;
+                    // Cálculos finales
+                    let igv = subtotalGeneral * 0.18;
+                    let totalFinal = subtotalGeneral + igv;
 
-            document.getElementById("subtotal_final").textContent = subtotalGeneral.toFixed(2);
-            document.getElementById("igv_final").textContent = igv.toFixed(2);
-            document.getElementById("total_final").textContent = totalFinal.toFixed(2);*/
+                    document.getElementById("subtotal_final").textContent = 'S/ ' + subtotalGeneral.toFixed(2);
+                    document.getElementById("igv_final").textContent = 'S/ ' + igv.toFixed(2);
+                    document.getElementById("total_final").textContent = 'S/ ' + totalFinal.toFixed(2);
 
         }
     } catch (error) {
@@ -153,4 +153,84 @@ async function actualizarSubtotal(id, precio) {
         console.log("error al actualizar cantidad" + error);
     }
 
+}
+
+
+// Función para buscar cliente por DNI
+async function buscarCliente() {
+    let dni = document.getElementById('cliente_dni').value;
+    try {
+        const datos = new FormData();
+        datos.append('dni', dni);
+
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=buscarCliente', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+
+        json = await respuesta.json();
+        if (json.status) {
+            document.getElementById('cliente_nombre').value = json.data.razon_social || '';
+            document.getElementById('cliente_dni').value = dni;
+        } else {
+            alert("Cliente no encontrado");
+            document.getElementById('cliente_nombre').value = '';
+        }
+    } catch (error) {
+        console.log("error al buscar cliente" + error);
+    }
+}
+
+
+// Carga el usuario que inició sesión y lo muestra en el modal
+async function cargarUsuarioSesion() {
+    try {
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=usuario_sesion');
+        let json = await respuesta.json();
+        if (json.status) {
+            if (document.getElementById('cliente_nombre')) document.getElementById('cliente_nombre').value = json.data.razon_social || '';
+            if (document.getElementById('cliente_dni')) document.getElementById('cliente_dni').value = json.data.nro_identidad || '';
+        }
+    } catch (error) {
+        console.log('Error al cargar usuario en sesión: ' + error);
+    }
+}
+
+// Ejecutar al abrir el modal (Bootstrap)
+try {
+    let modalEl = document.getElementById('exampleModal');
+    if (modalEl) modalEl.addEventListener('shown.bs.modal', cargarUsuarioSesion);
+} catch (e) {
+    console.log(e);
+}
+
+
+
+async function registrarVenta() {
+    let id_cliente = document.getElementById('cliente_dni').value;
+    let fecha_venta = document.getElementById('fecha_venta').value;
+
+    try {
+        const datos = new FormData();
+        datos.append('id_cliente', id_cliente);
+        datos.append('fecha_venta', fecha_venta);
+        
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=registrarVenta', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: datos
+        });
+        json = await respuesta.json();
+        if (json.status) {
+            alert("Venta registrada con éxito");
+            window.location.reload();
+        } else {
+            alert(json.msg);
+        }
+    } catch (error) {
+        console.log("error al registrar venta" + error);        
+    }
 }

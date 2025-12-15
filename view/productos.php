@@ -60,13 +60,58 @@ $base = defined('BASE_URL') ? BASE_URL : '/';
                     </div>
                 </div>
 
-                <div class="position-absolute bottom-0 start-0 end-0 p-3 text-center" style="background-color: #f8f9fa; border-top: 1px solid #ccc;">
-                    <button type="submit" class="btn btn-danger w-10">Pagar</button>
+                <!-- Button trigger modal -->
+
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Realizar Venta</button>
+
+                <!-- Modal -->
+                <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Venta</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="form_venta">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="cliente_dni" class="form-label">Dni del Cliente</label>
+                                            <input type="text" class="form-control" id="cliente_dni" name="cliente_dni" >
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-primary mt-4" onclick="buscarCliente()">Buscar Cliente</button>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <label for="cliente_nombre" class="form-label">Nombre del Cliente</label>
+                                            <input type="text" class="form-control" id="cliente_nombre" name="cliente_nombre" readonly>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="fecha_venta" class="form-label">Fecha de Venta</label>
+                                            <input type="datetime" class="form-control" id="fecha_venta" name="fecha_venta" value="<?= date('Y-m-d H:i'); ?>" >
+
+                                        </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary">Vender</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
+
+
+
 
 
 <script src="<?php echo BASE_URL; ?>view/function/producto.js"></script>
