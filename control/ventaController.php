@@ -73,38 +73,71 @@ if ($tipo == "eliminar") {
     echo json_encode($respuesta);
 }
 
-if ($tipo == "actualizarCantidad"){
+if ($tipo == "actualizarCantidad") {
     $id = $_POST['id'];
     $cantidad = $_POST['cantidad'];
     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
-    $consulta =$objVenta->actualizarCantidadTemporalById($id, $cantidad);
-    if ($consulta){
+    $consulta = $objVenta->actualizarCantidadTemporalById($id, $cantidad);
+    if ($consulta) {
         $respuesta = array('status' => true, 'msg' => 'cantidad actualizada');
-    }else{
+    } else {
         $respuesta = array('status' => false, 'msg' => 'error al actualizar cantidad');
     }
     echo json_encode($respuesta);
 }
 
-if ($tipo == "buscarCliente"){
+if ($tipo == "buscarCliente") {
     $dni = $_POST['dni'];
     $respuesta = array('status' => false, 'msg' => 'Cliente no encontrado');
     $cliente = $objPersona->buscarPersonaPorNroIdentidad($dni);
-    if ($cliente){
+    if ($cliente) {
         $respuesta = array('status' => true, 'data' => $cliente);
     }
     echo json_encode($respuesta);
 }
 
-if ($tipo == "usuario_sesion"){
+if ($tipo == "usuario_sesion") {
     session_start();
     $respuesta = array('status' => false, 'msg' => 'No hay usuario en sesión');
-    if (isset($_SESSION['ventas_id']) && !empty($_SESSION['ventas_id'])){
+    if (isset($_SESSION['ventas_id']) && !empty($_SESSION['ventas_id'])) {
         $id_sesion = $_SESSION['ventas_id'];
         $usuario = $objPersona->obtenerUsuarioPorId($id_sesion);
-        if ($usuario){
+        if ($usuario) {
             $respuesta = array('status' => true, 'data' => $usuario);
         }
+    }
+    echo json_encode($respuesta);
+}
+
+
+
+if ($tipo == "registrarVenta") {
+    $id_cliente = $_POST['id_cliente'];
+    $fecha_venta = $_POST['fecha_venta'];
+    $id_vendedor = $_POST['id_vendedor'];
+    $ultima_venta = $objVenta->buscarUltimaVenta();
+
+    // logica para registrar la venta
+    $respuesta = array('status' => false, 'msg' => 'fallo el controlador');
+    if ($ultima_venta) {
+        $correlativo = $ultima_venta->codigo + 1;
+    } else {
+        $correlativo  = 1;
+    }
+
+    //Registrar los detalles de la venta
+    $venta = $objVenta->registrarVenta($correlativo, $fecha_venta, $id_cliente, $id_vendedor);
+    if ($venta) {
+        //Registrar los detalles de la venta
+        $temporales = $objVenta->buscarTemporales();
+        foreach ($temporales as $temporal) {
+            $objVenta->registrarDetalleVenta($venta, $temporal->id_producto, $temporal->precio, $temporal->cantidad);
+        }
+        //Eliminar los productos temporales
+        $objVenta->eliminarTemporales();
+        $respuesta = array('status' => true, 'msg' => 'Venta registrada con éxito');
+    } else {
+        $respuesta = array('status' => false, 'msg' => 'Error al registrar la venta');
     }
     echo json_encode($respuesta);
 }
