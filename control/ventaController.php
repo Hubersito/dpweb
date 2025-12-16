@@ -50,6 +50,14 @@ if ($tipo == "registrar_venta") {
     $id_cliente = $_POST['id_cliente'];
     $fecha_venta = $_POST['fecha_venta'];
     $id_vendedor = $_SESSION['ventas_id'];
+
+    // Verificar que existan productos en temporales antes de registrar la venta
+    $temporales_check = $objVenta->buscarTemporales();
+    if (empty($temporales_check)) {
+        echo json_encode(array('status' => false, 'msg' => 'No hay productos en el carrito'));
+        exit;
+    }
+
     $ultima_venta = $objVenta->buscar_ultima_venta();
     //Lógica para registrar la venta
     $respuesta = array('status' => false, 'msg' => 'fallo el controlador');

@@ -87,46 +87,6 @@ if ($tipo == "obtener_usuario") {
     }
 }
 
-if ($tipo == "registrar_cliente_minimo") {
-    $dni = isset($_POST['dni']) ? $_POST['dni'] : '';
-    $razon_social = isset($_POST['razon_social']) ? $_POST['razon_social'] : '';
-    if ($dni == '' || $razon_social == '') {
-        echo json_encode(array('status' => false, 'msg' => 'Faltan datos'));
-        exit;
-    }
-    $existe = $objPersona->existePersona($dni);
-    if ($existe > 0) {
-        $persona = $objPersona->buscarPersonaPorNroIdentidad($dni);
-        echo json_encode(array('status' => true, 'id' => $persona->id, 'msg' => 'Cliente ya existe'));
-        exit;
-    }
-    $id = $objPersona->registrar_minimo($dni, $razon_social);
-    if ($id) {
-        echo json_encode(array('status' => true, 'id' => $id, 'msg' => 'Cliente registrado'));
-    } else {
-        echo json_encode(array('status' => false, 'msg' => 'Error al registrar cliente'));
-    }
-}
-if ($tipo == "registrar_cliente_minimo") {
-    $dni = isset($_POST['dni']) ? $_POST['dni'] : '';
-    $razon_social = isset($_POST['razon_social']) ? $_POST['razon_social'] : '';
-    if ($dni == '' || $razon_social == '') {
-        echo json_encode(array('status' => false, 'msg' => 'Faltan datos'));
-        exit;
-    }
-    $existe = $objPersona->existePersona($dni);
-    if ($existe > 0) {
-        $persona = $objPersona->buscarPersonaPorNroIdentidad($dni);
-        echo json_encode(array('status' => true, 'id' => $persona->id, 'msg' => 'Cliente ya existe'));
-        exit;
-    }
-    $id = $objPersona->registrar_minimo($dni, $razon_social);
-    if ($id) {
-        echo json_encode(array('status' => true, 'id' => $id, 'msg' => 'Cliente registrado'));
-    } else {
-        echo json_encode(array('status' => false, 'msg' => 'Error al registrar cliente'));
-    }
-}
 
 if ($tipo == "ver") {
     $respuesta = array('status' => false, 'msg' => '');

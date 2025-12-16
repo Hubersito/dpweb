@@ -174,28 +174,8 @@ async function buscar_cliente_venta() {
             if (jsonLocal.status) {
                 document.getElementById('id_cliente_venta').value = jsonLocal.data.id;
             } else {
-                // no existe en la BD local: crear registro mínimo automáticamente
-                const datosReg = new FormData();
-                datosReg.append('dni', dni);
-                datosReg.append('razon_social', nombreCompleto);
-                try {
-                    let respReg = await fetch(base_url + 'control/usuarioController.php?tipo=registrar_cliente_minimo', {
-                        method: 'POST',
-                        mode: 'cors',
-                        cache: 'no-cache',
-                        body: datosReg
-                    });
-                    let jsonReg = await respReg.json();
-                    if (jsonReg.status) {
-                        document.getElementById('id_cliente_venta').value = jsonReg.id;
-                    } else {
-                        alert('No se pudo registrar cliente: ' + (jsonReg.msg || 'error'));
-                        document.getElementById('id_cliente_venta').value = '';
-                    }
-                } catch (err) {
-                    console.log('Error al registrar cliente mínimo: ' + err);
-                    document.getElementById('id_cliente_venta').value = '';
-                }
+                // no existe en la BD local: dejar vacío para registrar luego si se desea
+                document.getElementById('id_cliente_venta').value = '';
             }
         } else {
             alert('DNI no encontrado en el servicio externo');
@@ -210,9 +190,27 @@ async function buscar_cliente_venta() {
 async function registrarVenta() {
     let id_cliente = document.getElementById('id_cliente_venta').value;
     let fecha_venta = document.getElementById('fecha_venta').value;
+
     if (id_cliente == '' || fecha_venta == '') {
         return alert("debe completar todos los campos");
     }
+
+    // Verificar que existan productos en el carrito antes de enviar la venta
+    try {
+        let respTemp = await fetch(base_url + 'control/ventaController.php?tipo=listar_venta_temporal', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        let jsonTemp = await respTemp.json();
+        if (!(jsonTemp.status && Array.isArray(jsonTemp.data) && jsonTemp.data.length > 0)) {
+            return alert('No hay productos en el carrito');
+        }
+    } catch (err) {
+        console.log('Error al verificar productos temporales: ' + err);
+        return alert('No se pudo verificar el carrito');
+    }
+
     try {
         const datos = new FormData();
         datos.append('id_cliente', id_cliente);

@@ -32,33 +32,6 @@ class UsuarioModel
         }
     }
 
-    
-
-    public function registrar_minimo($nro_identidad, $razon_social)
-    {
-        // registra un cliente mínimo con valores por defecto
-        $telefono = $correo = $departamento = $provincia = $distrito = $cod_postal = $direccion = '';
-        $rol = 'Cliente';
-        $password = password_hash($nro_identidad, PASSWORD_DEFAULT);
-        $consulta = "INSERT INTO persona (nro_identidad, razon_social, telefono, correo, departamento, provincia, distrito, cod_postal, direccion, rol, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $this->conexion->prepare($consulta);
-        if (!$stmt) {
-            error_log("Error en prepare(): " . $this->conexion->error);
-            return 0;
-        }
-        $stmt->bind_param("sssssssssss", $nro_identidad, $razon_social, $telefono, $correo, $departamento, $provincia, $distrito, $cod_postal, $direccion, $rol, $password);
-        $resultado = $stmt->execute();
-        if ($resultado) {
-            $insert_id = $this->conexion->insert_id;
-            $stmt->close();
-            return $insert_id;
-        } else {
-            error_log("Error en execute(): " . $stmt->error);
-            $stmt->close();
-            return 0;
-        }
-    }
-
     public function existePersona($nro_identidad)
     {
         $consulta = "SELECT * FROM persona WHERE nro_identidad = ?";
