@@ -32,9 +32,11 @@ class UsuarioModel
         }
     }
 
+    
+
     public function registrar_minimo($nro_identidad, $razon_social)
     {
-        // registra un cliente mínimo con valores por defecto para campos opcionales
+        // registra un cliente mínimo con valores por defecto
         $telefono = $correo = $departamento = $provincia = $distrito = $cod_postal = $direccion = '';
         $rol = 'Cliente';
         $password = password_hash($nro_identidad, PASSWORD_DEFAULT);

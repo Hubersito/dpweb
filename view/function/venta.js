@@ -174,8 +174,28 @@ async function buscar_cliente_venta() {
             if (jsonLocal.status) {
                 document.getElementById('id_cliente_venta').value = jsonLocal.data.id;
             } else {
-                // no existe en la BD local: dejar vacío para registrar luego si se desea
-                document.getElementById('id_cliente_venta').value = '';
+                // no existe en la BD local: crear registro mínimo automáticamente
+                const datosReg = new FormData();
+                datosReg.append('dni', dni);
+                datosReg.append('razon_social', nombreCompleto);
+                try {
+                    let respReg = await fetch(base_url + 'control/usuarioController.php?tipo=registrar_cliente_minimo', {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        body: datosReg
+                    });
+                    let jsonReg = await respReg.json();
+                    if (jsonReg.status) {
+                        document.getElementById('id_cliente_venta').value = jsonReg.id;
+                    } else {
+                        alert('No se pudo registrar cliente: ' + (jsonReg.msg || 'error'));
+                        document.getElementById('id_cliente_venta').value = '';
+                    }
+                } catch (err) {
+                    console.log('Error al registrar cliente mínimo: ' + err);
+                    document.getElementById('id_cliente_venta').value = '';
+                }
             }
         } else {
             alert('DNI no encontrado en el servicio externo');
