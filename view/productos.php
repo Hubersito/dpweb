@@ -39,7 +39,7 @@
                                     <th>Cant.</th>
                                     <th>P. Unit.</th>
                                     <th>SubTotal</th>
-                                    <th></th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="lista_compra">

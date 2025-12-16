@@ -67,26 +67,35 @@ async function listar_temporales() {
             cache: 'no-cache'
         });
         json = await respuesta.json();
-        if (json.status) {
-            let lista_temporal = '';
+        let lista_temporal = '';
+        if (json.status && Array.isArray(json.data) && json.data.length > 0) {
             json.data.forEach(t_venta => {
                 lista_temporal += `<tr>
                                     <td>${t_venta.nombre}</td>
-                                    <td><input type="number" id="cant_${t_venta.id}" value="${t_venta.cantidad}" style="width: 60px;" onkeyup="actualizar_subtotal(${t_venta.id}, ${t_venta.precio});" onchange="actualizar_subtotal(${t_venta.id}, ${t_venta.precio});"></td>
+                                    <td><input type="number" min="0" id="cant_${t_venta.id}" value="${t_venta.cantidad}" style="width: 60px;" oninput="if(this.value<0)this.value=0; actualizar_subtotal(${t_venta.id}, ${t_venta.precio});" onchange="actualizar_subtotal(${t_venta.id}, ${t_venta.precio});"></td>
                                     <td>S/. ${t_venta.precio}</td>
                                     <td id="subtotal_${t_venta.id}">S/. ${t_venta.cantidad * t_venta.precio}</td>
-                                    <td><button class="btn btn-danger btn-sm" onclick="eliminarTemporal(${t_venta.id})">Eliminar</button></td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="eliminarTemporalCarrito(${t_venta.id})">Eliminar</button></td>
                                 </tr>`
             });
             document.getElementById('lista_compra').innerHTML = lista_temporal;
             act_subt_general();
+        } else {
+            // sin productos: limpiar lista y totales
+            document.getElementById('lista_compra').innerHTML = '<tr><td colspan="5" class="text-center">No hay productos</td></tr>';
+            document.getElementById('subtotal_general').innerHTML = 'S/. 0.00';
+            document.getElementById('igv_general').innerHTML = 'S/. 0.00';
+            document.getElementById('total').innerHTML = 'S/. 0.00';
         }
     } catch (error) {
         console.log("error al cargar productos temporales " + error);
     }
 }
 async function actualizar_subtotal(id, precio) {
-    let cantidad = document.getElementById('cant_' + id).value;
+    let cantidad = parseFloat(document.getElementById('cant_' + id).value) || 0;
+    if (cantidad < 0) cantidad = 0;
+    // actualizar el input para reflejar valor clamped
+    document.getElementById('cant_' + id).value = cantidad;
     try {
         const datos = new FormData();
         datos.append('id', id);
@@ -133,25 +142,47 @@ async function act_subt_general() {
 }
 
 async function buscar_cliente_venta() {
-    let dni = document.getElementById('cliente_dni').value;
+    let dni = document.getElementById('cliente_dni').value.trim();
+    if (dni === '') return alert('Ingrese un DNI');
+    if (dni.length !== 8) return alert('DNI inválido. Debe tener 8 dígitos');
+
     try {
+        // Primero consultar API externa por DNI
         const datos = new FormData();
         datos.append('dni', dni);
-        let respuesta = await fetch(base_url + 'control/usuarioController.php?tipo=obtener_usuario', {
+        let respuesta = await fetch(base_url + 'control/consulta_dni.php', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
             body: datos
         });
-        json = await respuesta.json();
-        if (json.status) {
-            document.getElementById('cliente_nombre').value = json.data.razon_social;
-            document.getElementById('id_cliente_venta').value = json.data.id;
+        let json = await respuesta.json();
+        // la API devuelve numeroDocumento y nombres/apellidos
+        if (json && (json.numeroDocumento === dni || json.numeroDocumento == dni)) {
+            const nombreCompleto = `${json.nombres || json.nombre || ''} ${json.apellidoPaterno || ''} ${json.apellidoMaterno || ''}`.trim();
+            document.getElementById('cliente_nombre').value = nombreCompleto || '';
+            // luego intentar obtener el id en la BD local (si existe)
+            const datosLocal = new FormData();
+            datosLocal.append('dni', dni);
+            let respLocal = await fetch(base_url + 'control/usuarioController.php?tipo=obtener_usuario', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                body: datosLocal
+            });
+            let jsonLocal = await respLocal.json();
+            if (jsonLocal.status) {
+                document.getElementById('id_cliente_venta').value = jsonLocal.data.id;
+            } else {
+                // no existe en la BD local: dejar vacío para registrar luego si se desea
+                document.getElementById('id_cliente_venta').value = '';
+            }
         } else {
-            alert(json.msg);
+            alert('DNI no encontrado en el servicio externo');
         }
     } catch (error) {
-        console.log("error al buscar cliente por dni " + error);
+        console.log('error al buscar cliente por dni ' + error);
+        alert('Error al consultar DNI');
     }
 }
 
@@ -183,4 +214,53 @@ async function registrarVenta() {
     } catch (error) {
         console.log("error al registrar venta " + error);
     }
+}
+
+async function eliminarTemporalCarrito(id) {
+    Swal.fire({
+        icon: "warning",
+        title: "¿Estás seguro?",
+        text: "Esta acción no se puede revertir",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "No, cancelar",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const datos = new FormData();
+                // enviar el id del registro en la tabla temporal (campo `id`)
+                datos.append('id', id);
+                let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=eliminar_temporal', {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    body: datos
+                });
+                json = await respuesta.json();
+                if (json.status) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Eliminado",
+                        text: json.msg
+                    }).then(() => {
+                        // refrescar la lista de temporales y los subtotales
+                        listar_temporales();
+                        act_subt_general();
+                    });
+
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: json.msg
+                    });
+                }
+
+            } catch (error) {
+                console.log('oops, ocurrio un error' + error);
+            }
+        }
+    });
 }
