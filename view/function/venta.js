@@ -1,223 +1,173 @@
 let productos_venta = {};
 let id = 2;
-let id2 = 3;
+let id2 = 4;
 let producto = {};
 producto.nombre = "Producto A";
-producto.precio = 10.00;
+producto.precio = 100;
 producto.cantidad = 2;
-productos_venta[id] = producto;
 
 let producto2 = {};
 producto2.nombre = "Producto B";
-producto2.precio = 5.00;
+producto2.precio = 200;
 producto2.cantidad = 1;
-
+//productos_venta.push(producto);
 
 productos_venta[id] = producto;
 productos_venta[id2] = producto2;
 console.log(productos_venta);
 
 
+async function agregar_producto_temporal(id_product = 0, price = 0, cant = 1) {
+    if (id_product == 0) {
+        id = document.getElementById('id_producto_venta').value;
+    } else {
+        id = id_product;
+    }
+    if (price == 0) {
+        precio = document.getElementById('producto_precio_venta').value;
+    } else {
+        precio = price;
+    }
+    if (cant == 0) {
+        cantidad = document.getElementById('producto_cantidad_venta').value;
+    } else {
+        cantidad = cant;
+    }
 
-
-// Función para agregar un producto al carrito de venta
-async function agregar_producto_temporal(id, precio, cantidad) {
     const datos = new FormData();
     datos.append('id_producto', id);
     datos.append('precio', precio);
     datos.append('cantidad', cantidad);
-
     try {
         let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=registrarTemporal', {
             method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
             body: datos
         });
-
-        let json = await respuesta.json();
-
+        json = await respuesta.json();
         if (json.status) {
-            if (json.msg === 'registrado') {
-                Swal.fire("Agregado al carrito");
+            if (json.msg == "registrado") {
+                alert("el producto fue registrado");
             } else {
-                Swal.fire("Actualizado");
+                alert("el producto fue actualizado");
             }
-
-            if (typeof actualizarCarrito === 'function') actualizarCarrito();
         }
-    } catch (e) {
-        console.log(e);
+        listar_temporales();
+
+    } catch (error) {
+        console.log("error en agregar producto temporal " + error);
     }
 }
-
-
-
-
-document.addEventListener('DOMContentLoaded', actualizarCarrito);
-
-
-
-async function eliminar_temporal(id) {
-
-    const datos = new FormData();
-    datos.append('id', id);
-
-    let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=eliminar', {
-        method: 'POST',
-        body: datos
-    });
-
-    let json = await respuesta.json();
-
-    if (json.status) {
-        actualizarCarrito();
-        Swal.fire({ icon: "success", title: "Producto eliminado" })
-
-    } else {
-        Swal.fire({ icon: "error", title: "Error al eliminar" })
-    }
-    //await actualizarCarrito();
-}
-
-async function actualizarCarrito() {
+async function listar_temporales() {
     try {
-        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=lista_venta_temporal');
-        let json = await respuesta.json();
-
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=listar_venta_temporal', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        json = await respuesta.json();
         if (json.status) {
-
-            let listaTemporal = "";
-            let subtotalGeneral = 0;
-
-            json.data.forEach(t => {
-
-                 let subtotal = parseFloat(t.precio) * parseFloat(t.cantidad);
-                        subtotalGeneral += subtotal;
-
-                        listaTemporal += `
-                        <tr>
-                            <td>${t.nombre}</td>
-                            <td><input type="number" id="cant_${t.id}" value="${t.cantidad}" style="width:50px;" onkeyup="actualizarSubtotal(${t.id}, ${t.precio});" onchange="actualizarSubtotal(${t.id}, ${t.precio});"></td>
-                            <td>S/ ${parseFloat(t.precio).toFixed(2)}</td>
-                            <input type="hidden" id="precio_${t.id}" value="${t.precio}">
-                            <td id="subtotal_${t.id}">S/ ${subtotal.toFixed(2)}</td>
-                            <td>
-                                <button onclick="eliminar_temporal(${t.id})" class="btn btn-sm btn-danger">
-                                     <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>`;
+            let lista_temporal = '';
+            json.data.forEach(t_venta => {
+                lista_temporal += `<tr>
+                                    <td>${t_venta.nombre}</td>
+                                    <td><input type="number" id="cant_${t_venta.id}" value="${t_venta.cantidad}" style="width: 60px;" onkeyup="actualizar_subtotal(${t_venta.id}, ${t_venta.precio});" onchange="actualizar_subtotal(${t_venta.id}, ${t_venta.precio});"></td>
+                                    <td>S/. ${t_venta.precio}</td>
+                                    <td id="subtotal_${t_venta.id}">S/. ${t_venta.cantidad * t_venta.precio}</td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="eliminarTemporal(${t_venta.id})">Eliminar</button></td>
+                                </tr>`
             });
-
-           // Insertamos en la tabla
-                    document.getElementById("tablaCarrito").innerHTML = listaTemporal;
-
-                    // Cálculos finales
-                    let igv = subtotalGeneral * 0.18;
-                    let totalFinal = subtotalGeneral + igv;
-
-                    document.getElementById("subtotal_final").textContent = 'S/ ' + subtotalGeneral.toFixed(2);
-                    document.getElementById("igv_final").textContent = 'S/ ' + igv.toFixed(2);
-                    document.getElementById("total_final").textContent = 'S/ ' + totalFinal.toFixed(2);
-
+            document.getElementById('lista_compra').innerHTML = lista_temporal;
+            act_subt_general();
         }
     } catch (error) {
-        console.log("error al cargar productos temporales" + error);
+        console.log("error al cargar productos temporales " + error);
     }
 }
-
-document.addEventListener('DOMContentLoaded', actualizarCarrito);
-
-
-async function actualizarSubtotal(id, precio) {
+async function actualizar_subtotal(id, precio) {
     let cantidad = document.getElementById('cant_' + id).value;
     try {
         const datos = new FormData();
         datos.append('id', id);
         datos.append('cantidad', cantidad);
-
-        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=actualizarCantidad', {
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=actualizar_cantidad', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
             body: datos
         });
-
         json = await respuesta.json();
         if (json.status) {
-            subtotal =cantidad * precio;
-            document.getElementById('subtotal_' + id).innerHTML= 'S/'+ subtotal;
-            actualizarCarrito();
+            subtotal = cantidad * precio;
+            document.getElementById('subtotal_' + id).innerHTML = 'S/. ' + subtotal;
+            act_subt_general();
         }
-
     } catch (error) {
-        console.log("error al actualizar cantidad" + error);
+        console.log("error al actualizar cantidad : " + error);
     }
-
 }
 
+async function act_subt_general() {
+    try {
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=listar_venta_temporal', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache'
+        });
+        json = await respuesta.json();
+        if (json.status) {
+            subtotal_general = 0;
+            json.data.forEach(t_venta => {
+                subtotal_general += parseFloat(t_venta.precio * t_venta.cantidad);
+            });
+            igv = parseFloat(subtotal_general * 0.18).toFixed(2);
+            total = (parseFloat(subtotal_general) + parseFloat(igv)).toFixed(2);
+            document.getElementById('subtotal_general').innerHTML = 'S/. ' + subtotal_general.toFixed(2);
+            document.getElementById('igv_general').innerHTML = 'S/. ' + igv;
+            document.getElementById('total').innerHTML = 'S/. ' + total;
+        }
+    } catch (error) {
+        console.log("error al cargar productos temporales " + error);
+    }
+}
 
-// Función para buscar cliente por DNI
-async function buscarCliente() {
+async function buscar_cliente_venta() {
     let dni = document.getElementById('cliente_dni').value;
     try {
         const datos = new FormData();
         datos.append('dni', dni);
-
-        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=buscarCliente', {
+        let respuesta = await fetch(base_url + 'control/usuarioController.php?tipo=obtener_usuario', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
             body: datos
         });
-
         json = await respuesta.json();
         if (json.status) {
-            document.getElementById('cliente_nombre').value = json.data.razon_social || '';
-            document.getElementById('cliente_dni').value = dni;
+            document.getElementById('cliente_nombre').value = json.data.razon_social;
+            document.getElementById('id_cliente_venta').value = json.data.id;
         } else {
-            alert("Cliente no encontrado");
-            document.getElementById('cliente_nombre').value = '';
+            alert(json.msg);
         }
     } catch (error) {
-        console.log("error al buscar cliente" + error);
+        console.log("error al buscar cliente por dni " + error);
     }
 }
-
-
-// Carga el usuario que inició sesión y lo muestra en el modal
-async function cargarUsuarioSesion() {
-    try {
-        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=usuario_sesion');
-        let json = await respuesta.json();
-        if (json.status) {
-            if (document.getElementById('cliente_nombre')) document.getElementById('cliente_nombre').value = json.data.razon_social || '';
-            if (document.getElementById('cliente_dni')) document.getElementById('cliente_dni').value = json.data.nro_identidad || '';
-        }
-    } catch (error) {
-        console.log('Error al cargar usuario en sesión: ' + error);
-    }
-}
-
-// Ejecutar al abrir el modal (Bootstrap)
-try {
-    let modalEl = document.getElementById('exampleModal');
-    if (modalEl) modalEl.addEventListener('shown.bs.modal', cargarUsuarioSesion);
-} catch (e) {
-    console.log(e);
-}
-
 
 
 async function registrarVenta() {
-    let id_cliente = document.getElementById('cliente_dni').value;
+    let id_cliente = document.getElementById('id_cliente_venta').value;
     let fecha_venta = document.getElementById('fecha_venta').value;
-
+    if (id_cliente == '' || fecha_venta == '') {
+        return alert("debe completar todos los campos");
+    }
     try {
         const datos = new FormData();
         datos.append('id_cliente', id_cliente);
         datos.append('fecha_venta', fecha_venta);
-        
-        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=registrarVenta', {
+
+        let respuesta = await fetch(base_url + 'control/ventaController.php?tipo=registrar_venta', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -225,12 +175,12 @@ async function registrarVenta() {
         });
         json = await respuesta.json();
         if (json.status) {
-            alert("Venta registrada con éxito");
+            alert("venta registrada con exito");
             window.location.reload();
         } else {
             alert(json.msg);
         }
     } catch (error) {
-        console.log("error al registrar venta" + error);        
+        console.log("error al registrar venta " + error);
     }
 }

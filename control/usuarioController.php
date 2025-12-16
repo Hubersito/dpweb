@@ -39,23 +39,23 @@ if ($tipo == "registrar") {
     echo json_encode($arrResponse);
 }
 
-if($tipo == "iniciar_sesion"){
+if ($tipo == "iniciar_sesion") {
     $nro_identidad = $_POST['username'];
     $password = $_POST['password'];
     if ($nro_identidad == "" || $password == "") {
         $respuesta = array('status' => false, 'msg' => 'Error, campos vacios');
-    }else {
+    } else {
         $existePersona = $objPersona->existePersona($nro_identidad);
         if (!$existePersona) {
             $respuesta = array('status' => false, 'msg' => 'Usuario no registrado');
-        }else{
+        } else {
             $persona = $objPersona->buscarPersonaPorNroIdentidad($nro_identidad);
             if (password_verify($password, $persona->password)) {
                 session_start();
                 $_SESSION['ventas_id'] = $persona->id;
                 $_SESSION['ventas_usuario'] = $persona->razon_social;
-                $respuesta = array('status' => true, 'msg' => 'Iniciaste sesión'); 
-            }else{
+                $respuesta = array('status' => true, 'msg' => 'Iniciaste sesión');
+            } else {
                 $respuesta = array('status' => false, 'msg' => 'Contraseña incorrecto');
             }
         }
@@ -70,36 +70,38 @@ if ($tipo == "mostrar_usuarios") {
     echo json_encode($usuarios);
 }
 
-if ($tipo == "obtener_usuario"){
-    if (!isset($_POST['id']) || empty($_POST['id'])) {
-        echo json_encode(array('status' => false, 'msg' => 'Error, id no existe'));
+if ($tipo == "obtener_usuario") {
+    // Buscar por DNI (nro_identidad) enviado desde la interfaz de ventas
+    if (!isset($_POST['dni']) || empty($_POST['dni'])) {
+        echo json_encode(array('status' => false, 'msg' => 'Error, dni no existe'));
         exit;
     }
-    $id = $_POST['id'];
-    $usuario = $objPersona->obtenerUsuarioPorId($id);
+    $dni = $_POST['dni'];
+    // utilizar el método que busca por nro_identidad
+    $usuario = $objPersona->buscarPersonaPorNroIdentidad($dni);
     header('Content-Type: application/json');
-    if($usuario){
+    if ($usuario) {
         echo json_encode(array('status' => true, 'data' => $usuario));
-    }else{
+    } else {
         echo json_encode(array('status' => false, 'msg' => 'Error, usuario no encontrado'));
     }
 }
 
 
-if ($tipo == "ver"){
+if ($tipo == "ver") {
     $respuesta = array('status' => false, 'msg' => '');
     $id_persona = $_POST['id_persona'];
     $usuario = $objPersona->ver($id_persona);
     if ($usuario) {
-        $respuesta ['status'] = true;
-        $respuesta ['data'] = $usuario;
-    }else {
+        $respuesta['status'] = true;
+        $respuesta['data'] = $usuario;
+    } else {
         $respuesta['msg'] = 'Error, usuario no existe';
     }
     echo json_encode($respuesta);
 }
 
-if ($tipo == "actualizar"){
+if ($tipo == "actualizar") {
     //print_r($_POST);
     $id_persona = $_POST['id_persona'];
     $nro_identidad = $_POST['nro_identidad'];
@@ -113,19 +115,19 @@ if ($tipo == "actualizar"){
     $direccion = $_POST['direccion'];
     $rol = $_POST['rol'];
 
-   if ($id_persona == "" || $nro_identidad == "" || $razon_social == "" || $telefono == "" || $correo == "" || $departamento == ""  || $provincia == "" || $distrito == "" || $cod_postal == "" || $direccion == "" || $rol == "") {
+    if ($id_persona == "" || $nro_identidad == "" || $razon_social == "" || $telefono == "" || $correo == "" || $departamento == ""  || $provincia == "" || $distrito == "" || $cod_postal == "" || $direccion == "" || $rol == "") {
         $arrResponse = array('status' => false, 'msg' => 'Error, campos vacios');
-    }else {
+    } else {
         $existeID = $objPersona->ver($id_persona);
-        if (!$existeID){
+        if (!$existeID) {
             $arrResponse = array('status' => false, 'msg' => 'Error, usario no existe');
             echo json_encode($arrResponse);
             exit;
-        } else{
+        } else {
             $actualizar = $objPersona->actualizar($id_persona, $nro_identidad, $razon_social, $telefono, $correo, $departamento, $provincia, $distrito, $cod_postal, $direccion, $rol);
             if ($actualizar) {
                 $arrResponse = array('status' => true, 'msg' => "actualizado correctamente");
-            }else{
+            } else {
                 $arrResponse = array('status' => false, 'msg' => $actualizar);
             }
             echo json_encode($arrResponse);
@@ -134,15 +136,15 @@ if ($tipo == "actualizar"){
     }
 }
 
-if($tipo == "eliminar"){
+if ($tipo == "eliminar") {
     $id_persona = $_POST['id_persona'];
-    if($id_persona == ""){
+    if ($id_persona == "") {
         $arrResponse = array('status' => false, 'msg' => 'Error, id vacio');
-    }else{
+    } else {
         $eliminar = $objPersona->eliminar($id_persona);
         if ($eliminar) {
             $arrResponse = array('status' => true, 'msg' => 'Usuario eliminado correctamente');
-        }else{
+        } else {
             $arrResponse = array('status' => false, 'msg' => 'Error al eliminar usuario');
         }
         echo json_encode($arrResponse);
@@ -155,7 +157,7 @@ if ($tipo == "mostrar_clientes") {
     $respuesta = array();
     if (!empty($usuarios)) {
         $respuesta = array('status' => true, 'msg' => 'Clientes encontrados', 'data' => $usuarios);
-    }else {
+    } else {
         $respuesta = array('status' => false, 'msg' => 'No hay clientes registrados', 'data' => array());
     }
     header('Content-Type: application/json');
@@ -168,7 +170,7 @@ if ($tipo == "mostrar_proveedores") {
     $respuesta = array();
     if (!empty($usuarios)) {
         $respuesta = array('status' => true, 'msg' => 'Proveedores encontrados', 'data' => $usuarios);
-    }else {
+    } else {
         $respuesta = array('status' => false, 'msg' => 'No hay proveedores registrados', 'data' => array());
     }
     header('Content-Type: application/json');
